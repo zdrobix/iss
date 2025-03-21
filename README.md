@@ -56,7 +56,7 @@
 | **ID and Name** | UC-3: Login |
 |-----------------|---------------------|
 | **Primary Actor** | User |
-| **Secondary Actors** | None |
+| **Secondary Actors** | Application |
 | **Description** | A user wants to access their account in order to use the application, by providing login credentials. |
 | **Trigger** | User navigates to the login page. |
 | **Preconditions** | **PRE-1:** The user has registered an account on the platform. <br> **PRE-2:** The user must provide a valid username and password combination. |
@@ -83,7 +83,7 @@
 | **ID and Name** | UC-4: Logout |
 |-----------------|---------------------|
 | **Primary Actor** | User |
-| **Secondary Actors** | None |
+| **Secondary Actors** | Application |
 | **Description** | A user wants to stop being logged in. |
 | **Trigger** | User navigates to the account page. |
 | **Preconditions** | **PRE-1:** The user is logged in. <br> |
@@ -92,9 +92,40 @@
 | | 1.1 The user navigates to the account page. |
 | | 1.2 The user presses the logout button. |
 | **Alternative Flows** | NaN |
-| **Exceptions** | NaN. |
 
 
 ---
 
 
+#### Check the medication menu usecase
+| **ID and Name** | UC-5: Check the medication menu |
+|-----------------|---------------------|
+| **Primary Actor** | Hospital Staff |
+| **Secondary Actors** | Application |
+| **Description** | A hospital staff member wants to see the available drugs. |
+| **Trigger** | User navigates to the menu page. |
+| **Preconditions** | **PRE-1:** The user is logged in. <br> |
+| **Postconditions** | NaN |
+| **Normal Flow** | **1.0 User checks the medication menu ** |
+| | 1.1 The user navigates to the menu page. |
+| | 1.2 The drugs are presented in a table, along with the price. |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
+
+
+---
+
+#### Check the hospital orders usecase
+| **ID and Name** | UC-5: Check the hospital orders |
+|-----------------|---------------------|
+| **Primary Actor** | Pharmacy Staff |
+| **Secondary Actors** | Application |
+| **Description** | A pharmacy staff member wants to see the placed orders. |
+| **Trigger** | User navigates to the orders page. |
+| **Preconditions** | **PRE-1:** The user is logged in. <br> |
+| **Postconditions** | NaN |
+| **Normal Flow** | **1.0 User checks the hospital orders ** |
+| | 1.1 The user navigates to the orders page. |
+| | 1.2 The orders are presented in a table, along with the hospital name, and sorted by the placing date. |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
