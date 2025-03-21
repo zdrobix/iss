@@ -28,6 +28,9 @@
 | **Exceptions** | 1. The order is canceled before placing the command. |
 
 
+---
+
+
 #### Resolve order usecase
 | **ID and Name** | UC-2: Resolve order |
 |-----------------|---------------------|
@@ -44,6 +47,9 @@
 | | 1.4 The order is marked as complete. |
 | **Alternative Flows** | NaN |
 | **Exceptions** | 1. The order is removed before resolving the command. <br> 2. The quantity in the inventory for a certain medication is less than the quantity required in the order. |
+
+
+---
 
 
 #### Login usecase
