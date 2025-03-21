@@ -85,7 +85,7 @@
 | **Primary Actor** | User |
 | **Secondary Actors** | Application |
 | **Description** | A user wants to stop being logged in. |
-| **Trigger** | User navigates to the account page. |
+| **Trigger** | User navigates to the account page, and wants to log out. |
 | **Preconditions** | **PRE-1:** The user is logged in. <br> |
 | **Postconditions** | **POST-1:** The user is logged out. <br> **POST-2:** The user is redirected to the login page. <br> **POST-3:** Specific features become unavailable. |
 | **Normal Flow** | **1.0 User logs out** |
@@ -103,10 +103,10 @@
 | **Primary Actor** | Hospital Staff |
 | **Secondary Actors** | Application |
 | **Description** | A hospital staff member wants to see the available drugs. |
-| **Trigger** | User navigates to the menu page. |
+| **Trigger** | User wants to place an order, and needs information on the drugs. |
 | **Preconditions** | **PRE-1:** The user is logged in. <br> |
 | **Postconditions** | NaN |
-| **Normal Flow** | **1.0 User checks the medication menu ** |
+| **Normal Flow** | **1.0 User checks the medication menu** |
 | | 1.1 The user navigates to the menu page. |
 | | 1.2 The drugs are presented in a table, along with the price. |
 | **Alternative Flows** | NaN |
@@ -116,16 +116,33 @@
 ---
 
 #### Check the hospital orders usecase
-| **ID and Name** | UC-5: Check the hospital orders |
+| **ID and Name** | UC-6: Check the hospital orders |
 |-----------------|---------------------|
 | **Primary Actor** | Pharmacy Staff |
 | **Secondary Actors** | Application |
 | **Description** | A pharmacy staff member wants to see the placed orders. |
-| **Trigger** | User navigates to the orders page. |
+| **Trigger** | User wants to resolve an order. |
 | **Preconditions** | **PRE-1:** The user is logged in. <br> |
 | **Postconditions** | NaN |
-| **Normal Flow** | **1.0 User checks the hospital orders ** |
+| **Normal Flow** | **1.0 User checks the hospital orders** |
 | | 1.1 The user navigates to the orders page. |
 | | 1.2 The orders are presented in a table, along with the hospital name, and sorted by the placing date. |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
+
+---
+
+#### Check the storage usecase
+| **ID and Name** | UC-7: Check the storage |
+|-----------------|---------------------|
+| **Primary Actor** | Pharmacy Staff |
+| **Secondary Actors** | Application |
+| **Description** | A pharmacy staff member wants to see the available drugs, with the quantity. |
+| **Trigger** | The user resolves an order and checks the availability of certain drugs. |
+| **Preconditions** | **PRE-1:** The user is logged in. <br> |
+| **Postconditions** | NaN |
+| **Normal Flow** | **1.0 User checks the pharmacy storage** |
+| | 1.1 The user navigates to the storage page. |
+| | 1.2 The drugs are presented in a table, along the available quantity. |
 | **Alternative Flows** | NaN |
 | **Exceptions** | NaN. |
