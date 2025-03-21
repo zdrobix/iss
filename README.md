@@ -146,3 +146,5 @@
 | | 1.2 The drugs are presented in a table, along the available quantity. |
 | **Alternative Flows** | NaN |
 | **Exceptions** | NaN. |
+
+
