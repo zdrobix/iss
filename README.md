@@ -74,3 +74,27 @@
 | | 2.5 The system validates the credentials. |
 | | 2.6 Upon success, access is granted. |
 | **Exceptions** | 1. The user provides an invalid username. |
+
+
+---
+
+
+#### Login usecase
+| **ID and Name** | UC-4: Logout |
+|-----------------|---------------------|
+| **Primary Actor** | User |
+| **Secondary Actors** | None |
+| **Description** | A user wants to stop being logged in. |
+| **Trigger** | User navigates to the account page. |
+| **Preconditions** | **PRE-1:** The user is logged in. <br> |
+| **Postconditions** | **POST-1:** The user is logged out. <br> **POST-2:** The user is redirected to the login page. <br> **POST-3:** Specific features become unavailable. |
+| **Normal Flow** | **1.0 User logs out** |
+| | 1.1 The user navigates to the account page. |
+| | 1.2 The user presses the logout button. |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
+
+
+---
+
+
