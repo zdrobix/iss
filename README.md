@@ -148,3 +148,54 @@
 | **Exceptions** | NaN. |
 
 
+---
+
+#### Manage medication storage usecase
+| **ID and Name** | UC-8: Manage medication storage |
+|-----------------|---------------------|
+| **Primary Actor** | Admin |
+| **Secondary Actors** | Application |
+| **Description** | The admin can perform CRUD operations on the medication storage |
+| **Trigger** | NaN |
+| **Preconditions** | **PRE-1:** The admin is logged in. <br> |
+| **Postconditions** | NaN |
+| **Normal Flow** | **1.0 Admin performs CRUD operations to medication storage** |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
+
+
+---
+
+#### Manage medication menu usecase
+| **ID and Name** | UC-9: Manage medication menu |
+|-----------------|---------------------|
+| **Primary Actor** | Admin |
+| **Secondary Actors** | Application |
+| **Description** | The admin can perform CRUD operations on the medication menu |
+| **Trigger** | NaN |
+| **Preconditions** | **PRE-1:** The admin is logged in. <br> |
+| **Postconditions** | NaN |
+| **Normal Flow** | **1.0 Admin performs CRUD operations to medication menu** |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
+
+
+---
+
+#### Manage accounts usecase
+| **ID and Name** | UC-9: Manage accounts |
+|-----------------|---------------------|
+| **Primary Actor** | Admin |
+| **Secondary Actors** | Application |
+| **Description** | The admin can perform CRUD operations on the accounts |
+| **Trigger** | NaN |
+| **Preconditions** | **PRE-1:** The admin is logged in. <br> |
+| **Postconditions** | NaN |
+| **Normal Flow** | **1.0 Admin performs CRUD operations to the accounts** |
+| **Alternative Flows** | NaN |
+| **Exceptions** | NaN. |
+
+
+
+
+
