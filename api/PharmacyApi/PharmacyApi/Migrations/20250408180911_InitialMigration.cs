@@ -97,42 +97,28 @@ namespace PharmacyApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HospitalStaff",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalId = table.Column<int>(type: "int", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HospitalId = table.Column<int>(type: "int", nullable: true),
+                    PharmacyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HospitalStaff", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HospitalStaff_Hospitals_HospitalId",
+                        name: "FK_Users_Hospitals_HospitalId",
                         column: x => x.HospitalId,
                         principalTable: "Hospitals",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PharmacyStaff",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PharmacyId = table.Column<int>(type: "int", nullable: true),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PharmacyStaff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PharmacyStaff_Pharmacies_PharmacyId",
+                        name: "FK_Users_Pharmacies_PharmacyId",
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacies",
                         principalColumn: "Id");
@@ -153,12 +139,6 @@ namespace PharmacyApi.Migrations
                 {
                     table.PrimaryKey("PK_PlacedOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlacedOrders_HospitalStaff_PlacedById",
-                        column: x => x.PlacedById,
-                        principalTable: "HospitalStaff",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_PlacedOrders_Hospitals_HospitalId",
                         column: x => x.HospitalId,
                         principalTable: "Hospitals",
@@ -168,6 +148,12 @@ namespace PharmacyApi.Migrations
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacies",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PlacedOrders_Users_PlacedById",
+                        column: x => x.PlacedById,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,9 +181,9 @@ namespace PharmacyApi.Migrations
                         principalTable: "Pharmacies",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResolvedOrders_PharmacyStaff_ResolvedById",
+                        name: "FK_ResolvedOrders_Users_ResolvedById",
                         column: x => x.ResolvedById,
-                        principalTable: "PharmacyStaff",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -235,11 +221,6 @@ namespace PharmacyApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HospitalStaff_HospitalId",
-                table: "HospitalStaff",
-                column: "HospitalId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderedDrugs_DrugId",
                 table: "OrderedDrugs",
                 column: "DrugId");
@@ -258,11 +239,6 @@ namespace PharmacyApi.Migrations
                 name: "IX_Pharmacies_StorageId",
                 table: "Pharmacies",
                 column: "StorageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PharmacyStaff_PharmacyId",
-                table: "PharmacyStaff",
-                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlacedOrders_HospitalId",
@@ -303,6 +279,16 @@ namespace PharmacyApi.Migrations
                 name: "IX_StoredDrugs_DrugStorageId",
                 table: "StoredDrugs",
                 column: "DrugStorageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_HospitalId",
+                table: "Users",
+                column: "HospitalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PharmacyId",
+                table: "Users",
+                column: "PharmacyId");
         }
 
         /// <inheritdoc />
@@ -324,10 +310,7 @@ namespace PharmacyApi.Migrations
                 name: "Drugs");
 
             migrationBuilder.DropTable(
-                name: "HospitalStaff");
-
-            migrationBuilder.DropTable(
-                name: "PharmacyStaff");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Hospitals");
