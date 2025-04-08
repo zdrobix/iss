@@ -2,9 +2,9 @@
 {
 	public class PlacedOrder : Order
 	{
-		public HospitalStaff PlacedBy { get; set; }
+		public User PlacedBy { get; set; }
 
-		public PlacedOrder(ICollection<OrderedDrug> orderedDrugs, DateTime dateTime, HospitalStaff placedBy) : base(orderedDrugs, dateTime)
+		public PlacedOrder(ICollection<OrderedDrug> orderedDrugs, DateTime dateTime, User placedBy) : base(orderedDrugs, dateTime)
 		{
 			this.PlacedBy = placedBy;
 		}
