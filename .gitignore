@@ -90,3 +90,12 @@ node_modules/
 npm-debug.log
 dist/
 
+# Other motherfuckers
+*.dtbcache.v2
+CodeChunks.db
+SemanticSymbols.db
+SemanticSymbols.db-shm
+SemanticSymbols.db-wal
+*.vsidx
+*.futdcache.v2
+.vs/
