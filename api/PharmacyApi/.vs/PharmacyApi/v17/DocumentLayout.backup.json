@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "Q:\\info\\iss\\api\\PharmacyApi\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Migrations\\20250408140136_InitialMigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PharmacyApi\\Migrations\\20250408140136_InitialMigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Migrations\\20250408135932_CorrectedPharmacy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PharmacyApi\\Migrations\\20250408135932_CorrectedPharmacy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FAD79815-6413-4F4A-B438-261AD5FA30BB}|PharmacyApi\\PharmacyApi.csproj|q:\\info\\iss\\api\\pharmacyapi\\pharmacyapi\\models\\domain\\pharmacy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FAD79815-6413-4F4A-B438-261AD5FA30BB}|PharmacyApi\\PharmacyApi.csproj|solutionrelative:pharmacyapi\\models\\domain\\pharmacy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FAD79815-6413-4F4A-B438-261AD5FA30BB}|PharmacyApi\\PharmacyApi.csproj|q:\\info\\iss\\api\\pharmacyapi\\pharmacyapi\\models\\domain\\hospitalstaff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FAD79815-6413-4F4A-B438-261AD5FA30BB}|PharmacyApi\\PharmacyApi.csproj|solutionrelative:pharmacyapi\\models\\domain\\hospitalstaff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FAD79815-6413-4F4A-B438-261AD5FA30BB}|PharmacyApi\\PharmacyApi.csproj|q:\\info\\iss\\api\\pharmacyapi\\pharmacyapi\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FAD79815-6413-4F4A-B438-261AD5FA30BB}|PharmacyApi\\PharmacyApi.csproj|solutionrelative:pharmacyapi\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +30,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 254,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20250408140136_InitialMigration.cs",
+              "DocumentMoniker": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Migrations\\20250408140136_InitialMigration.cs",
+              "RelativeDocumentMoniker": "PharmacyApi\\Migrations\\20250408140136_InitialMigration.cs",
+              "ToolTip": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Migrations\\20250408140136_InitialMigration.cs",
+              "RelativeToolTip": "PharmacyApi\\Migrations\\20250408140136_InitialMigration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T14:01:36.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "20250408135932_CorrectedPharmacy.cs",
+              "DocumentMoniker": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Migrations\\20250408135932_CorrectedPharmacy.cs",
+              "RelativeDocumentMoniker": "PharmacyApi\\Migrations\\20250408135932_CorrectedPharmacy.cs",
+              "ToolTip": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Migrations\\20250408135932_CorrectedPharmacy.cs",
+              "RelativeToolTip": "PharmacyApi\\Migrations\\20250408135932_CorrectedPharmacy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T13:59:32.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Pharmacy.cs",
+              "DocumentMoniker": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Models\\Domain\\Pharmacy.cs",
+              "RelativeDocumentMoniker": "PharmacyApi\\Models\\Domain\\Pharmacy.cs",
+              "ToolTip": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Models\\Domain\\Pharmacy.cs",
+              "RelativeToolTip": "PharmacyApi\\Models\\Domain\\Pharmacy.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAowA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T13:58:35.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HospitalStaff.cs",
+              "DocumentMoniker": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Models\\Domain\\HospitalStaff.cs",
+              "RelativeDocumentMoniker": "PharmacyApi\\Models\\Domain\\HospitalStaff.cs",
+              "ToolTip": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Models\\Domain\\HospitalStaff.cs",
+              "RelativeToolTip": "PharmacyApi\\Models\\Domain\\HospitalStaff.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T13:58:29.795Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -22,6 +95,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "PharmacyApi\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "Q:\\info\\iss\\api\\PharmacyApi\\PharmacyApi\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "PharmacyApi\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA1wBUAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T13:18:01.685Z",
+              "EditorCaption": ""
             }
           ]
         }
