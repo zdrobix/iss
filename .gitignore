@@ -99,3 +99,5 @@ SemanticSymbols.db-wal
 *.vsidx
 *.futdcache.v2
 .vs/
+appsettings.json
+appsettings.Development.json
