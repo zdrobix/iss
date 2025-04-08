@@ -16,8 +16,7 @@ namespace PharmacyApi.Data
 		public DbSet<ResolvedOrder> ResolvedOrders { get; set; }
 		public DbSet<Pharmacy> Pharmacies { get; set; }
 		public DbSet<Hospital> Hospitals { get; set; }
-		public DbSet<HospitalStaff> HospitalStaff { get; set; }
-		public DbSet<PharmacyStaff> PharmacyStaff { get; set; }
+		public DbSet<User> Users { get; set; }
 		public DbSet<DrugStorage> DrugStorages { get; set; }
 	}
 }
