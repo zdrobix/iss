@@ -26,6 +26,7 @@ namespace PharmacyApi.Controllers
 			return Ok(
 				new DrugDTO
 				{
+					Id = drug.Id,
 					Name = drug.Name,
 					Price = drug.Price
 				}
@@ -39,6 +40,7 @@ namespace PharmacyApi.Controllers
 			var drugs = await drugRepository.GetAllAsync();
 			var drugDTOs = drugs.Select(drug => new DrugDTO
 			{
+				Id = drug.Id,
 				Name = drug.Name,
 				Price = drug.Price
 			});
@@ -56,6 +58,7 @@ namespace PharmacyApi.Controllers
 
 			return Ok(new DrugDTO
 				{
+					Id = drug.Id,
 					Name = drug.Name,
 					Price = drug.Price
 				});
