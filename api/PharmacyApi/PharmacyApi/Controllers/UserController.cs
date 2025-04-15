@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApi.Models.Domain;
 using PharmacyApi.Models.DTO;
@@ -63,24 +64,23 @@ namespace PharmacyApi.Controllers
 		}
 
 		// GET : https://localhost:7282/api/user
-		[HttpGet]
-		[Route("{username}/{password}")]
-		public async Task<IActionResult> GetUserByUsernameAndPassword(string username, string password)
+		[HttpPost]
+		[Route("login")]
+		public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
 		{
-			var user = await userRepository.GetByUsername(username);
+			var user = await userRepository.GetByUsername(request.Username);
 			if (user == null)
 				return NotFound();
-			if (PasswordHasher.Encrypt(password) != user.Password)
+			if (PasswordHasher.Encrypt(request.Password) != user.Password)
 				return Unauthorized();
-			return Ok(
-				new UserDTO
-				{
-					Name = user.Name,
-					Username = user.Username,
-					Password = user.Password,
-					Role = user.Role
-				}
-			);
+
+			return Ok(new UserDTO
+			{
+				Name = user.Name,
+				Username = user.Username,
+				Password = user.Password,
+				Role = user.Role
+			});
 		}
 
 	}
