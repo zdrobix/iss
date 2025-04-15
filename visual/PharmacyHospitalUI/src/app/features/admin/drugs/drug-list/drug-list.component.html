@@ -1,0 +1,28 @@
+<div class="container">
+    <h1 class="mt-3">Drug List</h1>
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" [routerLink]="['/drugs/add']">Add Drug</a>
+    </div> 
+    <ng-container *ngIf="drugs$ | async as drugs">
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let drug of drugs">
+                    <td>{{drug.id}}</td>
+                    <td>{{drug.name}}</td>
+                    <td>{{drug.price}}</td>
+                    <!-- <td>
+                        <a class="btn btn-light" [routerLink]="['/admin/categories/edit', category.id]">Edit</a>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    
+</div>

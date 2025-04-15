@@ -1,0 +1,23 @@
+<div *ngIf="user$ | async as user; else notLoggedIn" class="d-flex justify-content-center align-items-center">
+    <div class="card" style="width: 18rem;">
+      <img *ngIf="user$ | async as user" 
+        [src]="'assets/img/' + user.role.toLowerCase() + '.jpg'" 
+        class="card-img-top" 
+        alt="{{ user.role }} image">
+        <div class="card-body">
+          <h5 class="card-title">{{user.name}}</h5>
+          <p class="card-text">{{user.role}}</p>
+        </div>
+        <!-- <ul class="list-group list-group-flush">
+          <li class="list-group-item"></li>
+        </ul> -->
+        <div class="card-body">
+          <a href="#" class="card-link">Username</a>
+          <a href="#" class="card-link">Password</a>
+        </div>
+      </div>
+  </div>
+  
+  <ng-template #notLoggedIn>
+    <p>User info not available. Please log in.</p>
+  </ng-template>
