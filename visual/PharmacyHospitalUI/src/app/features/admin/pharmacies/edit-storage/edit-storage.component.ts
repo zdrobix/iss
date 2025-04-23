@@ -6,6 +6,7 @@ import { Pharmacy } from 'src/app/features/models/pharmacy.model';
 import { PharmaciesService } from '../services/pharmacies.service';
 import { DrugsService } from '../../drugs/services/drugs.service';
 import { UpdatePharmacyRequest } from 'src/app/features/models/update-pharmacy-request.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-edit-storage',
