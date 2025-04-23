@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequest } from '../../models/login-request.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, timer } from 'rxjs';
 import { environment } from 'src/environment/environment';
 import { UserDTO } from '../../models/user-dto.model';
 
@@ -28,9 +28,10 @@ export class LoginService {
     return this.http.post<UserDTO>(`${environment.apiBaseUrl}/api/user/login`, model);
   }
 
-  logout(): void {
+  logout(): Observable<void> {
     sessionStorage.removeItem('user');
     this.currentUserSubject.next(null);
+    return timer(0).pipe(map(() => {}));
   }
 
   private getUserFromSession(): UserDTO | null {

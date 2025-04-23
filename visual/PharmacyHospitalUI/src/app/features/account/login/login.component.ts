@@ -12,7 +12,7 @@ import { UserDTO } from '../../models/user-dto.model';
 })
 export class LoginComponent implements OnInit, OnDestroy  {
   model: LoginRequest;
-  private addCategorySubscription?: Subscription;
+  private loginSubscription?: Subscription;
 
   constructor(private loginService: LoginService,
     private router: Router
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy  {
   onFormSubmit() {
     if (!this.model)
       return;
-    this.addCategorySubscription = this.loginService.login(this.model).subscribe({
+    this.loginSubscription = this.loginService.login(this.model).subscribe({
       next: (response: UserDTO) => {
         this.loginService.setLoggedInUser(response);
         this.router.navigate(['/account']);
@@ -41,6 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy(): void {
-    this.addCategorySubscription?.unsubscribe();
+    this.loginSubscription?.unsubscribe();
   }
 }
