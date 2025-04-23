@@ -78,7 +78,9 @@ namespace PharmacyApi.Controllers
 							{
 								Name = s.Name,
 								Username = s.Username,
-								Role = s.Role
+								Role = s.Role,
+								Password = s.Password,
+								PharmacyId = pharmacy.Id,
 							}).ToList(),
 							Storage = new DrugStorageDTO
 								{
@@ -118,7 +120,9 @@ namespace PharmacyApi.Controllers
 					{
 						Name = s.Name,
 						Username = s.Username,
-						Role = s.Role
+						Role = s.Role,
+						Password = s.Password,
+						PharmacyId = pharmacy.Id,
 					}).ToList(),
 					Storage = new DrugStorageDTO
 					{
@@ -163,7 +167,8 @@ namespace PharmacyApi.Controllers
 					Name = s.Name,
 					Username = s.Username,
 					Password = s.Password,
-					Role = s.Role
+					Role = s.Role,
+					PharmacyId = id
 				}).ToList();
 			} else Log.Information("No staff to update");
 

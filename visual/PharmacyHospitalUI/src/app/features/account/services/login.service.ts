@@ -3,29 +3,29 @@ import { HttpClient } from '@angular/common/http';
 import { LoginRequest } from '../../models/login-request.model';
 import { BehaviorSubject, map, Observable, of, timer } from 'rxjs';
 import { environment } from 'src/environment/environment';
-import { UserDTO } from '../../models/user-dto.model';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class LoginService {
-  private currentUserSubject = new BehaviorSubject<UserDTO | null>(this.getUserFromSession());
-  public user$: Observable<UserDTO | null> = this.currentUserSubject.asObservable();
+  private currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromSession());
+  public user$: Observable<User | null> = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  setLoggedInUser(user: UserDTO) {
+  setLoggedInUser(user: User) {
     sessionStorage.setItem('user', JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
 
-  getLoggedInUser(): Observable<UserDTO | null> {
+  getLoggedInUser(): Observable<User | null> {
     return this.user$;
   }
 
-  login (model: LoginRequest) : Observable<UserDTO> {
-    return this.http.post<UserDTO>(`${environment.apiBaseUrl}/api/user/login`, model);
+  login (model: LoginRequest) : Observable<User> {
+    return this.http.post<User>(`${environment.apiBaseUrl}/api/user/login`, model);
   }
 
   logout(): Observable<void> {
@@ -34,7 +34,7 @@ export class LoginService {
     return timer(0).pipe(map(() => {}));
   }
 
-  private getUserFromSession(): UserDTO | null {
+  private getUserFromSession(): User | null {
     const userJson = sessionStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
   }

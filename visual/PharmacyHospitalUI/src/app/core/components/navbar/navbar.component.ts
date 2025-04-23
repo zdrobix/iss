@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/features/account/services/login.service';
-import { UserDTO } from 'src/app/features/models/user-dto.model';
 import { User } from 'src/app/features/models/user.model';
 
 @Component({
@@ -10,13 +9,13 @@ import { User } from 'src/app/features/models/user.model';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  user$: Observable<UserDTO | null>;
+  user$: Observable<User | null>;
 
   constructor(private loginService: LoginService ) {
     this.user$ = this.loginService.getLoggedInUser();
    }
 
-  isAdmin(user: UserDTO | null): boolean {
+  isAdmin(user: User| null): boolean {
     return user?.role === "ADMIN";
   }
 

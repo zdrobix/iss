@@ -3,7 +3,7 @@ import { LoginRequest } from '../../models/login-request.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
-import { UserDTO } from '../../models/user-dto.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy  {
     if (!this.model)
       return;
     this.loginSubscription = this.loginService.login(this.model).subscribe({
-      next: (response: UserDTO) => {
+      next: (response: User) => {
         this.loginService.setLoggedInUser(response);
         this.router.navigate(['/account']);
       },
