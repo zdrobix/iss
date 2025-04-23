@@ -1,0 +1,32 @@
+<div class="container">
+    <ng-container *ngIf="pharmacy">
+        <h1 class="mt-3">Edit staff</h1>
+        <h2 class="mt-3">{{pharmacy.name}}</h2>
+        <div class="d-flex justify-content-end mt-3">
+            <a class="btn btn-primary" [routerLink]="['/pharmacies']" (click)="updatePharmacy()">Save changes</a>
+        </div> 
+        <ng-container *ngIf="drugs$ | async as drugs">
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let drug of drugs">
+                        <td>{{drug.id}}</td>
+                        <td>{{drug.name}}</td>
+                        <td>{{drug.price}}</td>
+                        <td>
+                            <input type="number" class="ml-3" name="quantity" id="quantity" #quantity placeholder="Quantity"/>
+                            <button class="btn btn-light" (click)="addToDrugStorage(drug, +quantity.value)">Add</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+    </ng-container>
+</div>
