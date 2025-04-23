@@ -14,6 +14,10 @@ import { DrugListComponent } from './features/admin/drugs/drug-list/drug-list.co
 import { PharmacyListComponent } from './features/admin/pharmacies/pharmacy-list/pharmacy-list.component';
 import { AddPharmacyComponent } from './features/admin/pharmacies/add-pharmacy/add-pharmacy.component';
 import { PharmacyEditComponent } from './features/admin/pharmacies/pharmacy-edit/pharmacy-edit.component';
+import { AddUserComponent } from './features/admin/users/add-user/add-user.component';
+import { UserListComponent } from './features/admin/users/user-list/user-list.component';
+import { EditStaffComponent } from './features/admin/pharmacies/edit-staff/edit-staff.component';
+import { EditStorageComponent } from './features/admin/pharmacies/edit-storage/edit-storage.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { PharmacyEditComponent } from './features/admin/pharmacies/pharmacy-edit
     DrugListComponent,
     PharmacyListComponent,
     PharmacyEditComponent,
-    AddPharmacyComponent
+    AddPharmacyComponent,
+    AddUserComponent,
+    UserListComponent,
+    EditStaffComponent,
+    EditStorageComponent
   ],
   imports: [
     BrowserModule,
