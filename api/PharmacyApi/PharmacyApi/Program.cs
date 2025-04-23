@@ -1,8 +1,15 @@
+using Serilog;
 using Microsoft.EntityFrameworkCore;
 using PharmacyApi.Data;
 using PharmacyApi.Repo.Implementation;
 using PharmacyApi.Repo.Interface;
 using PharmacyApi.Utils;
+
+Log.Logger = new LoggerConfiguration()
+	.WriteTo.File("logs/log.txt")
+	.CreateLogger();
+
+Log.Information("Application started.");
 
 var builder = WebApplication.CreateBuilder(args);
 
