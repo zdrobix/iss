@@ -11,7 +11,10 @@ import { AddPharmacyComponent } from './features/admin/pharmacies/add-pharmacy/a
 import { UserListComponent } from './features/admin/users/user-list/user-list.component';
 import { AddUserComponent } from './features/admin/users/add-user/add-user.component';
 import { EditStorageComponent } from './features/admin/pharmacies/edit-storage/edit-storage.component';
-import { EditStaffComponent } from './features/admin/pharmacies/edit-staff/edit-staff.component';
+import { EditStaffPharmacyComponent } from './features/admin/pharmacies/edit-staff/edit-staff.component';
+import { HospitalListComponent } from './features/admin/hospitals/hospital-list/hospital-list.component';
+import { AddHospitalComponent } from './features/admin/hospitals/add-hospital/add-hospital.component';
+import { EditStaffHospitalComponent } from './features/admin/hospitals/edit-staff-hospital/edit-staff-hospital.component';
 
 
 const routes: Routes = [
@@ -21,8 +24,11 @@ const routes: Routes = [
   { path: 'drugs/add', component: AddDrugComponent, canActivate: [AuthGuard]},
   { path: 'pharmacies', component: PharmacyListComponent, canActivate: [AuthGuard]},
   { path: 'pharmacies/add', component: AddPharmacyComponent, canActivate: [AuthGuard]},
-  { path: 'pharmacies/edit/staff/:id', component: EditStaffComponent, canActivate: [AuthGuard]},
+  { path: 'pharmacies/edit/staff/:id', component: EditStaffPharmacyComponent, canActivate: [AuthGuard]},
   { path: 'pharmacies/edit/storage/:id', component: EditStorageComponent, canActivate: [AuthGuard]},
+  { path: 'hospitals', component: HospitalListComponent, canActivate: [AuthGuard]},
+  { path: 'hospitals/add', component: AddHospitalComponent, canActivate: [AuthGuard]},
+  { path: 'hospitals/edit/staff/:id', component: EditStaffHospitalComponent, canActivate: [AuthGuard]},
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard]},
   { path: 'users/add', component: AddUserComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },

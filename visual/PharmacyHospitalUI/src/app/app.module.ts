@@ -13,11 +13,13 @@ import { AddDrugComponent } from './features/admin/drugs/add-drug/add-drug.compo
 import { DrugListComponent } from './features/admin/drugs/drug-list/drug-list.component';
 import { PharmacyListComponent } from './features/admin/pharmacies/pharmacy-list/pharmacy-list.component';
 import { AddPharmacyComponent } from './features/admin/pharmacies/add-pharmacy/add-pharmacy.component';
-import { PharmacyEditComponent } from './features/admin/pharmacies/pharmacy-edit/pharmacy-edit.component';
 import { AddUserComponent } from './features/admin/users/add-user/add-user.component';
 import { UserListComponent } from './features/admin/users/user-list/user-list.component';
-import { EditStaffComponent } from './features/admin/pharmacies/edit-staff/edit-staff.component';
+import { EditStaffPharmacyComponent } from './features/admin/pharmacies/edit-staff/edit-staff.component';
 import { EditStorageComponent } from './features/admin/pharmacies/edit-storage/edit-storage.component';
+import { AddHospitalComponent } from './features/admin/hospitals/add-hospital/add-hospital.component';
+import { HospitalListComponent } from './features/admin/hospitals/hospital-list/hospital-list.component';
+import { EditStaffHospitalComponent } from './features/admin/hospitals/edit-staff-hospital/edit-staff-hospital.component';
 
 @NgModule({
   declarations: [
@@ -28,12 +30,14 @@ import { EditStorageComponent } from './features/admin/pharmacies/edit-storage/e
     AddDrugComponent,
     DrugListComponent,
     PharmacyListComponent,
-    PharmacyEditComponent,
     AddPharmacyComponent,
     AddUserComponent,
     UserListComponent,
-    EditStaffComponent,
-    EditStorageComponent
+    EditStaffPharmacyComponent,
+    EditStorageComponent,
+    AddHospitalComponent,
+    HospitalListComponent,
+    EditStaffHospitalComponent
   ],
   imports: [
     BrowserModule,
