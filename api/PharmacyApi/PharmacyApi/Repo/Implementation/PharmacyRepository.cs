@@ -25,6 +25,8 @@ namespace PharmacyApi.Repo.Implementation
 			await dbContext.Pharmacies
 				.Include(p => p.Staff)
 				.Include(p => p.Storage)
+					.ThenInclude(s => s.StoredDrugs)
+						.ThenInclude(sd => sd.Drug)
 				.Include(p => p.PlacedOrders)
 				.Include(p => p.ResolvedOrders)
 				.ToListAsync();
