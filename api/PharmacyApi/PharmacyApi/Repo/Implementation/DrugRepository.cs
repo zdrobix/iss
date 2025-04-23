@@ -23,7 +23,12 @@ namespace PharmacyApi.Repo.Implementation
 
 		public Task<Drug> DeleteAsync(int id)
 		{
-			throw new NotImplementedException();
+			var deleted = dbContext.Drugs.FirstOrDefault(d => d.Id == id);
+			if (deleted == null)
+				throw new ArgumentNullException(nameof(deleted), "Drug not found");
+			dbContext.Drugs.Remove(deleted);
+			dbContext.SaveChanges();
+			return Task.FromResult(deleted);
 		}
 
 		public async Task<IEnumerable<Drug>> GetAllAsync() =>
