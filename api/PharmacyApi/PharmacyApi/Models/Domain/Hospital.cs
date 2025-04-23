@@ -3,7 +3,7 @@
 	public class Hospital : OrderEntityContainer
 	{
 		public string Name { get; set; }
-		public ICollection<User> Staff { get; set; }
+		public ICollection<User> Staff { get; set; } = new List<User>();
 
 		public Hospital(string name, ICollection<User> staff, ICollection<PlacedOrder> placedOrders, ICollection<ResolvedOrder> resolvedOrders)
 			: base(placedOrders, resolvedOrders)
@@ -15,7 +15,6 @@
 		public Hospital() : base(new List<PlacedOrder>(), new List<ResolvedOrder>())
 		{
 			Name = "";
-			Staff = new List<User>();
 		}
 	}
 }
