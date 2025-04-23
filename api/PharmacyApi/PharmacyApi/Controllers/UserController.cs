@@ -83,5 +83,37 @@ namespace PharmacyApi.Controllers
 			});
 		}
 
+		// GET : https://localhost:7282/api/user
+		[HttpGet]
+		public async Task<IActionResult> GetAllUsers() =>
+			await userRepository.GetAllAsync() is IEnumerable<User> users
+				? Ok(users.Select(user => new UserDTO
+				{
+					Id = user.Id,
+					Name = user.Name,
+					Username = user.Username,
+					Password = "******",
+					Role = user.Role
+				}))
+				: NotFound();
+
+		// DELETE : https://localhost:7282/api/user{id}
+		[HttpDelete]
+		[Route("{id:int}")]
+		public async Task<IActionResult> DeleteUser([FromRoute] int id)
+		{
+			var user = await userRepository.DeleteAsync(id);
+
+			return user == null ? NotFound() : Ok(
+				new UserDTO
+				{
+					Id = user.Id,
+					Name = user.Name,
+					Username = user.Username,
+					Password = "******",
+					Role = user.Role
+				}
+			);
+		}
 	}
 }
