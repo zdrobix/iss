@@ -10,5 +10,10 @@
 			this.Name = name;
 			this.Price = price;
 		}
+
+		public Drug()
+		{
+
+		}
 	}
 }
