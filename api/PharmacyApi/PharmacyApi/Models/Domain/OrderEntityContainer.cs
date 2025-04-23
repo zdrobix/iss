@@ -2,8 +2,8 @@
 {
 	public class OrderEntityContainer : Entity<int>
 	{
-		public ICollection<PlacedOrder> PlacedOrders { get; set; }
-		public ICollection<ResolvedOrder> ResolvedOrders { get; set; }
+		public ICollection<PlacedOrder> PlacedOrders { get; set; } = new List<PlacedOrder>();
+		public ICollection<ResolvedOrder> ResolvedOrders { get; set; } = new List<ResolvedOrder>();
 
 		public OrderEntityContainer(ICollection<PlacedOrder> placedOrders, ICollection<ResolvedOrder> resolvedOrders)
 		{
