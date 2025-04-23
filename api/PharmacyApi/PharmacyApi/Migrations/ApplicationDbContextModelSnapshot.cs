@@ -337,13 +337,17 @@ namespace PharmacyApi.Migrations
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.User", b =>
                 {
-                    b.HasOne("PharmacyApi.Models.Domain.Hospital", null)
+                    b.HasOne("PharmacyApi.Models.Domain.Hospital", "Hospital")
                         .WithMany("Staff")
                         .HasForeignKey("HospitalId");
 
-                    b.HasOne("PharmacyApi.Models.Domain.Pharmacy", null)
+                    b.HasOne("PharmacyApi.Models.Domain.Pharmacy", "Pharmacy")
                         .WithMany("Staff")
                         .HasForeignKey("PharmacyId");
+
+                    b.Navigation("Hospital");
+
+                    b.Navigation("Pharmacy");
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.DrugStorage", b =>
