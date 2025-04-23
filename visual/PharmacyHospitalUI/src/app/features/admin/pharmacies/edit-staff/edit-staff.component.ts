@@ -7,13 +7,14 @@ import { map, Observable, of } from 'rxjs';
 import { User } from 'src/app/features/models/user.model';
 import { Pharmacy } from 'src/app/features/models/pharmacy.model';
 import { UpdatePharmacyRequest } from 'src/app/features/models/update-pharmacy-request.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-edit-staff',
   templateUrl: './edit-staff.component.html',
   styleUrls: ['./edit-staff.component.css']
 })
-export class EditStaffComponent implements OnInit, OnDestroy{
+export class EditStaffPharmacyComponent implements OnInit, OnDestroy{
 
   id: number | null = null;
   pharmacy?: Pharmacy | null = null;
@@ -28,7 +29,7 @@ export class EditStaffComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.users$ = this.usersService.getUsers().pipe(
-      map((users: any[]) => users.filter((user: { role: string; }) => user.role === 'PHARMACY STAFF'))
+      map((users: any[]) => users.filter((user: { role: string; pharmacyId: number;}) => user.role === 'PHARMACY STAFF' && user.pharmacyId === null))
     );
     this.routeSubscription = this.route.params.subscribe(params => {
       this.id = params['id'];
