@@ -16,6 +16,10 @@ export class DrugsService {
     return this.http.post<void>(`${environment.apiBaseUrl}/api/drug`, drug);
   }
 
+  deleteDrug (id: number): Observable<Drug> {
+    return this.http.delete<Drug>(`${environment.apiBaseUrl}/api/drug/${id}`);
+  }
+
   getDrugs () : Observable<Drug[]> {
     return this.http.get<Drug[]>(`${environment.apiBaseUrl}/api/drug`);
   }
