@@ -10,6 +10,7 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th>Price</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -17,9 +18,9 @@
                     <td>{{drug.id}}</td>
                     <td>{{drug.name}}</td>
                     <td>{{drug.price}}</td>
-                    <!-- <td>
-                        <a class="btn btn-light" [routerLink]="['/admin/categories/edit', category.id]">Edit</a>
-                    </td> -->
+                    <td>
+                        <button class="btn btn-danger" (click)="deleteDrug(drug.id)">Delete</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

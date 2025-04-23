@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Drug } from 'src/app/features/models/drug.model';
 import { DrugsService } from 'src/app/features/admin/drugs/services/drugs.service';
 
@@ -8,8 +8,10 @@ import { DrugsService } from 'src/app/features/admin/drugs/services/drugs.servic
   templateUrl: './drug-list.component.html',
   styleUrls: ['./drug-list.component.css']
 })
-export class DrugListComponent implements OnInit{
+export class DrugListComponent implements OnInit, OnDestroy{
+
   drugs$?: Observable<Drug[]>;
+  private deleteDrugSubscription?: Subscription;
   
   constructor(private drugsService: DrugsService) {
 
@@ -17,5 +19,15 @@ export class DrugListComponent implements OnInit{
 
   ngOnInit(): void {
     this.drugs$ = this.drugsService.getDrugs();
+  }
+
+  deleteDrug(id: number) {
+    this.deleteDrugSubscription = this.drugsService.deleteDrug(id).subscribe(() => {
+      this.drugs$ = this.drugsService.getDrugs();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.deleteDrugSubscription?.unsubscribe();
   }
 }
