@@ -50,13 +50,49 @@ namespace PharmacyApi.Controllers
 		//GET : https://localhost:7282/api/drugs{id}
 		[HttpGet]
 		[Route("{id:int}")]
-		public async Task<IActionResult> GetDrugById([FromRoute]int id)
+		public async Task<IActionResult> GetDrugById([FromRoute] int id)
 		{
 			var drug = await drugRepository.GetById(id);
 			if (drug == null)
 				return NotFound();
 
 			return Ok(new DrugDTO
+			{
+				Id = drug.Id,
+				Name = drug.Name,
+				Price = drug.Price
+			});
+		}
+
+		// PUT: https://localhost:7282/api/drug{id}
+		[HttpPut]
+		[Route("{id:int}")]
+		public async Task<IActionResult> UpdateDrug([FromRoute] int id, [FromBody] UpdateDrugRequestDTO request)
+		{
+			var drug = (Drug)new Drug(request.Name, request.Price).SetId(id);
+
+			drug = await drugRepository.UpdateAsync(drug);
+
+			return drug == null ? 
+				NotFound() : 
+				Ok(new DrugDTO
+				{
+					Id = drug.Id,
+					Name = drug.Name,
+					Price = drug.Price
+				});
+		}
+
+		// DELETE: https://localhost:7282/api/drug{id}
+		[HttpDelete]
+		[Route("{id:int}")]
+		public async Task<IActionResult> DeleteDrug([FromRoute] int id)
+		{
+			var drug = await drugRepository.DeleteAsync(id);
+
+			return drug == null ?
+				NotFound() :
+				Ok(new DrugDTO
 				{
 					Id = drug.Id,
 					Name = drug.Name,
@@ -65,3 +101,4 @@ namespace PharmacyApi.Controllers
 		}
 	}
 }
+
