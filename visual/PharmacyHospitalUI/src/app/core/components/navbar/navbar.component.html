@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <ng-container *ngIf="user$ | async as user">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Account</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,8 +7,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
+          <ng-container *ngIf="!isAdmin(user)">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="order">Order</a>
+            <a *ngIf="user.role == 'HOSPITAL STAFF'"
+             class="nav-link active" aria-current="page" href="order/add">Order</a>
+            <a *ngIf="user.role == 'PHARMACY STAFF'"
+             class="nav-link active" aria-current="page" href="order/resolve">Order</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="history">History</a>
@@ -15,7 +20,7 @@
           <li class="nav-item">
             <a class="nav-link" href="inventory">Inventory</a>
           </li>
-          <ng-container *ngIf="user$ | async as user">
+        </ng-container>
             <ng-container *ngIf="isAdmin(user)">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -29,8 +34,8 @@
               </ul>
             </li>
           </ng-container>
-        </ng-container>
         </ul>
       </div>
     </div>
+        </ng-container>
   </nav>
