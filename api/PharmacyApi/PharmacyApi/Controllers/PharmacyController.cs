@@ -25,10 +25,8 @@ namespace PharmacyApi.Controllers
 		{
 			var pharmacy = new Pharmacy(
 				request.Name, 
-				new List<User>(),
-				new DrugStorage { StoredDrugs = new List<StoredDrug>() },
-				new List<PlacedOrder>(),
-				new List<ResolvedOrder>()
+				new DrugStorage(),
+				new OrderEntityContainer()
 			);
 			pharmacy = await pharmacyRepository.CreateAsync(pharmacy);
 			return Ok(
@@ -36,12 +34,6 @@ namespace PharmacyApi.Controllers
 				{
 					Id = pharmacy.Id,
 					Name = pharmacy.Name,
-					Staff = pharmacy.Staff.Select(s => new UserDTO
-					{
-						Name = s.Name,
-						Username = s.Username,
-						Role = s.Role
-					}).ToList(),
 					Storage = new DrugStorageDTO
 					{
 						StoredDrugs = pharmacy.Storage.StoredDrugs
@@ -74,14 +66,6 @@ namespace PharmacyApi.Controllers
 						{
 							Id = pharmacy.Id,
 							Name = pharmacy.Name,
-							Staff = pharmacy.Staff.Select(s => new UserDTO
-							{
-								Name = s.Name,
-								Username = s.Username,
-								Role = s.Role,
-								Password = s.Password,
-								PharmacyId = pharmacy.Id,
-							}).ToList(),
 							Storage = new DrugStorageDTO
 								{
 									StoredDrugs = pharmacy.Storage.StoredDrugs
@@ -116,14 +100,6 @@ namespace PharmacyApi.Controllers
 				{
 					Id = pharmacy.Id,
 					Name = pharmacy.Name,
-					Staff = pharmacy.Staff.Select(s => new UserDTO
-					{
-						Name = s.Name,
-						Username = s.Username,
-						Role = s.Role,
-						Password = s.Password,
-						PharmacyId = pharmacy.Id,
-					}).ToList(),
 					Storage = new DrugStorageDTO
 					{
 						StoredDrugs = pharmacy.Storage.StoredDrugs
@@ -149,7 +125,7 @@ namespace PharmacyApi.Controllers
 		[Route("{id:int}")]
 		public async Task<IActionResult> UpdatePharmacy([FromRoute] int id, [FromBody] UpdatePharmacyRequestDTO request)
 		{
-			Log.Information($"Searching for pharmacy with id {id}");
+			Log.Information($"Trying to update pharmacy with id {id}");
 
 			var existingPharmacy = await this.pharmacyRepository.GetById(id);
 			if (existingPharmacy == null)
@@ -159,18 +135,6 @@ namespace PharmacyApi.Controllers
 			}
 
 			existingPharmacy.Name = request.Name;
-
-			if (request.Staff != null)
-			{
-				existingPharmacy.Staff = request.Staff.Select(s => new User
-				{
-					Name = s.Name,
-					Username = s.Username,
-					Password = s.Password,
-					Role = s.Role,
-					PharmacyId = id
-				}).ToList();
-			} else Log.Information("No staff to update");
 
 			if (request.Storage != null && request.Storage.StoredDrugs != null)
 			{
@@ -200,13 +164,6 @@ namespace PharmacyApi.Controllers
 					{
 					Id = updatedPharmacy.Id,
 					Name = updatedPharmacy.Name,
-					Staff = updatedPharmacy.Staff.Select(s => new UserDTO
-					{
-						Name = s.Name,
-						Username = s.Username,
-						Password = s.Password,
-						Role = s.Role
-					}).ToList(),
 					Storage = new DrugStorageDTO
 					{
 						StoredDrugs = updatedPharmacy.Storage.StoredDrugs
