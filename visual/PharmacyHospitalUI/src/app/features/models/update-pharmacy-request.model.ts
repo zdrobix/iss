@@ -3,6 +3,5 @@ import { User } from "./user.model";
 
 export interface UpdatePharmacyRequest {
     name: string,
-    staff: User[],
     storage: DrugStorage
 }
