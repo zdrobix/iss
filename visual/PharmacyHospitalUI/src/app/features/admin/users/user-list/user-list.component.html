@@ -11,6 +11,7 @@
                     <th>Name</th>
                     <th>Username</th>
                     <th>Role</th>
+                    <th>Workplace</th>
                     <th></th>
                 </tr>
             </thead>
@@ -21,7 +22,18 @@
                     <td>{{user.username}}</td>
                     <td>{{user.role}}</td>
                     <td>
-                        <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
+                       <div *ngIf="user.hospital">
+                            {{user.hospital.name}}
+                       </div> 
+                       <div *ngIf="user.pharmacy">
+                            {{user.pharmacy.name}}
+                        </div> 
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center gap-3">
+                            <button class="btn btn-primary w-50" [routerLink]="['/users/edit', user.id]">Edit</button>
+                            <button class="btn btn-danger w-50" (click)="deleteUser(user.id)">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
