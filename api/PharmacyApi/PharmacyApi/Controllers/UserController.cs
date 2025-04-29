@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApi.Models.Domain;
 using PharmacyApi.Models.DTO;
+using PharmacyApi.Repo.Implementation;
 using PharmacyApi.Repo.Interface;
 using PharmacyApi.Utils;
+using Serilog;
 
 
 namespace PharmacyApi.Controllers
@@ -14,10 +16,16 @@ namespace PharmacyApi.Controllers
 	public class UserController : ControllerBase
 	{
 		private readonly IUserRepository userRepository;
+		private readonly IHospitalRepository hospitalRepository;
+		private readonly IPharmacyRepository pharmacyRepository;
 
-		public UserController(IUserRepository userRepository)
+		public UserController(IUserRepository userRepository, IHospitalRepository hospitalRepository,
+						  IPharmacyRepository pharmacyRepository)
 		{
 			this.userRepository = userRepository;
+			this.hospitalRepository = hospitalRepository;
+			this.pharmacyRepository = pharmacyRepository;
+			Log.Information("UserController initialized");
 		}
 
 		// POST : https://localhost:7282/api/user
@@ -49,16 +57,32 @@ namespace PharmacyApi.Controllers
 		[Route("{id:int}")]
 		public async Task<IActionResult> GetUserById(int id)
 		{
+			Log.Information($"Searching for a user with id {id}");
 			var user = await userRepository.GetById(id);
 			if (user == null)
+			{
+				Log.Information($"Couldn't find user with id {id}");
 				return NotFound();
+			}
 			return Ok(
 				new UserDTO
 				{
+					Id = user.Id,
 					Name = user.Name,
 					Username = user.Username,
 					Password = user.Password,
-					Role = user.Role
+					Role = user.Role,
+					Hospital = user.Hospital == null ? null : new HospitalDTO
+					{
+						Id = user.Hospital.Id,
+						Name = user.Hospital.Name,
+					},
+					Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
+					{
+						Id = user.Pharmacy.Id,
+						Name = user.Pharmacy.Name,
+						Storage = new DrugStorageDTO()
+					}
 				}
 			);
 		}
@@ -68,34 +92,68 @@ namespace PharmacyApi.Controllers
 		[Route("login")]
 		public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
 		{
+			Log.Information($"{request.Username} tries to login with password {request.Password}");
 			var user = await userRepository.GetByUsername(request.Username);
 			if (user == null)
+			{
+				Log.Information($"User {request.Username} not found.");
 				return NotFound();
+			}
 			if (PasswordHasher.Encrypt(request.Password) != user.Password)
+			{
+				Log.Information($"User {request.Username} failed to login by providing an incorrect password.");
 				return Unauthorized();
+			}
 
+			Log.Information($"User {request.Username} logged in successfully.");
 			return Ok(new UserDTO
 			{
+				Id = user.Id,
 				Name = user.Name,
 				Username = user.Username,
 				Password = user.Password,
-				Role = user.Role
+				Role = user.Role,
+				Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
+				{
+					Id = user.Pharmacy.Id,
+					Name = user.Pharmacy.Name,
+					Storage = new DrugStorageDTO()
+				},
+				Hospital = user.Hospital == null ? null : new HospitalDTO
+				{ 
+					Id = user.Hospital.Id,
+					Name = user.Hospital.Name
+				}
 			});
 		}
 
 		// GET : https://localhost:7282/api/user
 		[HttpGet]
-		public async Task<IActionResult> GetAllUsers() =>
-			await userRepository.GetAllAsync() is IEnumerable<User> users
+		public async Task<IActionResult> GetAllUsers()
+		{
+			Log.Information("Fetching users");
+			return await userRepository.GetAllAsync() is IEnumerable<User> users
 				? Ok(users.Select(user => new UserDTO
 				{
 					Id = user.Id,
 					Name = user.Name,
 					Username = user.Username,
 					Password = "******",
-					Role = user.Role
+					Role = user.Role,
+					Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
+					{
+						Id = user.Pharmacy.Id,
+						Name = user.Pharmacy.Name,
+						Storage = new DrugStorageDTO()
+					},
+					Hospital = user.Hospital == null ? null : new HospitalDTO
+					{
+						Id = user.Hospital.Id,
+						Name = user.Hospital.Name
+					}
 				}))
 				: NotFound();
+		}
 
 		// DELETE : https://localhost:7282/api/user{id}
 		[HttpDelete]
@@ -111,7 +169,88 @@ namespace PharmacyApi.Controllers
 					Name = user.Name,
 					Username = user.Username,
 					Password = "******",
-					Role = user.Role
+					Role = user.Role,
+					Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
+					{
+						Id = user.Pharmacy.Id,
+						Name = user.Pharmacy.Name,
+						Storage = new DrugStorageDTO()
+					},
+					Hospital = user.Hospital == null ? null : new HospitalDTO
+					{
+						Id = user.Hospital.Id,
+						Name = user.Hospital.Name
+					}
+				}
+			);
+		}
+
+		// PUT : https://localhost:7282/api/user{id}	
+		[HttpPut]
+		[Route("{id:int}")]
+		public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserRequestDTO request)
+		{
+			Log.Information($"Trying to update user with id {id}");
+			var user = await userRepository.GetById(id);
+			if (user == null)
+			{
+				Log.Information($"Couldn't find user with id {id}");
+				return NotFound();
+			}
+
+			user.Name = request.Name;
+			user.Username = request.Username;
+			user.Password = PasswordHasher.Encrypt(request.Password);
+			user.Role = request.Role;
+
+			if (request.Hospital != null)
+			{
+				var hospital = await hospitalRepository.GetById(request.Hospital.Id);
+				if (hospital == null)
+				{
+					return BadRequest("Invalid hospital ID.");
+				}
+				user.Hospital = hospital;
+			}
+
+			if (request.Pharmacy != null)
+			{
+				var pharmacy = await pharmacyRepository.GetById(request.Pharmacy.Id);
+				if (pharmacy == null)
+				{
+					return BadRequest("Invalid pharmacy ID.");
+				}
+				user.Pharmacy = pharmacy;
+			}
+
+			Log.Information($"Updating user with id {id}");
+			user = await userRepository.UpdateAsync(user);
+
+			if (user == null)
+			{
+				Log.Information($"Couldn't update user with id {id}");
+				return NotFound();
+			}
+
+			return Ok(
+				new UserDTO
+				{
+					Id = user.Id,
+					Name = user.Name,
+					Username = user.Username,
+					Password = user.Password,
+					Role = user.Role,
+					Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
+					{
+						Id = user.Pharmacy.Id,
+						Name = user.Pharmacy.Name,
+						Storage = new DrugStorageDTO()
+					},
+					Hospital = user.Hospital == null ? null : new HospitalDTO
+					{
+						Id = user.Hospital.Id,
+						Name = user.Hospital.Name
+					}
 				}
 			);
 		}
