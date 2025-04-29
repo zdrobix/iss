@@ -7,10 +7,13 @@
         <div class="card-body">
           <h5 class="card-title">{{user.name}}</h5>
           <p class="card-text">{{user.role}}</p>
+          <div *ngIf="user.role === 'PHARMACY STAFF' && user.pharmacy">
+            <p class="card-text">{{user.pharmacy.name}}</p>
+          </div>
+          <div *ngIf="user.role === 'HOSPITAL STAFF' && user.hospital">
+            <p class="card-text">{{user.hospital.name}}</p>
+          </div>
         </div>
-        <!-- <ul class="list-group list-group-flush">
-          <li class="list-group-item"></li>
-        </ul> -->
         <div class="card-body">
           <a href="#" class="card-link">Change credentials</a>
         </div>
