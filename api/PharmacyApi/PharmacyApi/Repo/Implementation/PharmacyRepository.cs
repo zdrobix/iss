@@ -23,29 +23,27 @@ namespace PharmacyApi.Repo.Implementation
 
 		public async Task<IEnumerable<Pharmacy>> GetAllAsync() =>
 			await dbContext.Pharmacies
-				.Include(p => p.Staff)
 				.Include(p => p.Storage)
 					.ThenInclude(s => s.StoredDrugs)
 						.ThenInclude(sd => sd.Drug)
-				.Include(p => p.PlacedOrders)
-				.Include(p => p.ResolvedOrders)
+				.Include(p => p.OrderContainer)
 				.ToListAsync();
 
 		public async Task<Pharmacy?> GetById(int id) =>
 			await dbContext.Pharmacies
-				.Include(p => p.Staff)
 				.Include(p => p.Storage)
-				.Include(p => p.PlacedOrders)
-				.Include(p => p.ResolvedOrders)
+					.ThenInclude(s => s.StoredDrugs)
+						.ThenInclude(sd => sd.Drug)
+				.Include(p => p.OrderContainer)
 				.FirstOrDefaultAsync(p => p.Id == id);
 
 		public async Task<Pharmacy?> UpdateAsync(Pharmacy pharmacy)
 		{
 			var existing = await dbContext.Pharmacies
-				.Include(p => p.Staff)
 				.Include(p => p.Storage)
-				.Include(p => p.PlacedOrders)
-				.Include(p => p.ResolvedOrders)
+					.ThenInclude(s => s.StoredDrugs)
+						.ThenInclude(sd => sd.Drug)
+				.Include(p => p.OrderContainer)
 				.FirstOrDefaultAsync(p => p.Id == pharmacy.Id);
 
 			if (existing == null)
@@ -53,10 +51,8 @@ namespace PharmacyApi.Repo.Implementation
 
 			dbContext.Entry(existing).CurrentValues.SetValues(pharmacy);
 
-			existing.Staff = pharmacy.Staff;
 			existing.Storage = pharmacy.Storage;
-			existing.PlacedOrders = pharmacy.PlacedOrders;
-			existing.ResolvedOrders = pharmacy.ResolvedOrders;
+			existing.OrderContainer = pharmacy.OrderContainer;
 
 			await dbContext.SaveChangesAsync();
 			return existing;
