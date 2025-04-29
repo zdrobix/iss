@@ -10,16 +10,12 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let pharmacy of pharmacies">
                     <td>{{pharmacy.id}}</td>
                     <td>{{pharmacy.name}}</td>
-                    <td>
-                        <button class="btn btn-light ml-3" [routerLink]="['/pharmacies/edit/staff', pharmacy.id]">Staff</button>
-                    </td>
                     <td>
                         <button class="btn btn-light" [routerLink]="['/pharmacies/edit/storage', pharmacy.id]">Storage</button>
                     </td>
