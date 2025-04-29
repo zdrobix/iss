@@ -13,6 +13,8 @@ namespace PharmacyApi.Models.Domain
 			Drug = drug;
 		}
 
-		public StoredDrug() { }
+		public StoredDrug() {
+			Drug = new Drug();
+		}
 	}
 }

@@ -13,7 +13,7 @@
 
 		public OrderedDrug()
 		{
-
+			Drug = new Drug();
 		}
 	}
 }
