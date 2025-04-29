@@ -23,24 +23,18 @@ namespace PharmacyApi.Repo.Implementation
 
 		public async Task<IEnumerable<Hospital>> GetAllAsync() =>
 			await dbContext.Hospitals
-				.Include(h => h.Staff)
-				.Include(h => h.PlacedOrders)
-				.Include(h => h.ResolvedOrders)
+				.Include(h => h.OrderContainer)
 				.ToListAsync();
 
 		public async Task<Hospital?> GetById(int id) =>
 			await dbContext.Hospitals
-				.Include(h => h.Staff)
-				.Include(h => h.PlacedOrders)
-				.Include(h => h.ResolvedOrders)
+				.Include(h => h.OrderContainer)
 				.FirstOrDefaultAsync(h => h.Id == id);
 
 		public async Task<Hospital?> UpdateAsync(Hospital hospital)
 		{
 			var existing = await dbContext.Hospitals
-				.Include(h => h.Staff)
-				.Include(h => h.PlacedOrders)
-				.Include(h => h.ResolvedOrders)
+				.Include(h => h.OrderContainer)
 				.FirstOrDefaultAsync(h => h.Id == hospital.Id);
 
 			if (existing == null)
@@ -48,9 +42,7 @@ namespace PharmacyApi.Repo.Implementation
 
 			dbContext.Entry(existing).CurrentValues.SetValues(hospital);
 
-			existing.Staff = hospital.Staff;
-			existing.PlacedOrders = hospital.PlacedOrders;
-			existing.ResolvedOrders = hospital.ResolvedOrders;
+			existing.OrderContainer = hospital.OrderContainer;
 
 			await dbContext.SaveChangesAsync();
 			return existing;
