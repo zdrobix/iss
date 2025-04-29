@@ -1,20 +1,18 @@
 ﻿namespace PharmacyApi.Models.Domain
 {
-	public class Hospital : OrderEntityContainer
+	public class Hospital : Entity<int>
 	{
 		public string Name { get; set; }
-		public ICollection<User> Staff { get; set; } = new List<User>();
+		public OrderEntityContainer OrderContainer { get; set; }
 
-		public Hospital(string name, ICollection<User> staff, ICollection<PlacedOrder> placedOrders, ICollection<ResolvedOrder> resolvedOrders)
-			: base(placedOrders, resolvedOrders)
+		public Hospital(string name, OrderEntityContainer orderContainer)
 		{
 			Name = name;
-			Staff = staff;
+			OrderContainer = orderContainer;
 		}
 
-		public Hospital() : base(new List<PlacedOrder>(), new List<ResolvedOrder>())
+		public Hospital()
 		{
-			Name = "";
 		}
 	}
 }
