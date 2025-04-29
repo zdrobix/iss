@@ -7,9 +7,8 @@
         public string Password { get; set; }
         public string Role { get; set; }
 
-		public int? PharmacyId { get; set; }
+
 		public Pharmacy? Pharmacy { get; set; }
-		public int? HospitalId { get; set; }
 		public Hospital? Hospital { get; set; }
 
 		public User (string name, string username, string password, string role)
@@ -22,7 +21,12 @@
 
 		public User()
 		{
-
+			Name = "";
+			Username = "";
+			Password = "";
+			Role = "";
+			Pharmacy = new Pharmacy();
+			Hospital = new Hospital();
 		}
 	}
 }
