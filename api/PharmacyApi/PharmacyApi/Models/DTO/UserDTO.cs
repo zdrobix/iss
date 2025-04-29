@@ -8,8 +8,6 @@
 		public string Password { get; set; }
 		public string Role { get; set; }
 
-		public int? PharmacyId { get; set; }
-		public int? HospitalId { get; set; }
 		public PharmacyDTO? Pharmacy { get; set; }
 		public HospitalDTO? Hospital { get; set; }
 	}
