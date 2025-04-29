@@ -15,11 +15,12 @@ import { PharmacyListComponent } from './features/admin/pharmacies/pharmacy-list
 import { AddPharmacyComponent } from './features/admin/pharmacies/add-pharmacy/add-pharmacy.component';
 import { AddUserComponent } from './features/admin/users/add-user/add-user.component';
 import { UserListComponent } from './features/admin/users/user-list/user-list.component';
-import { EditStaffPharmacyComponent } from './features/admin/pharmacies/edit-staff/edit-staff.component';
 import { EditStorageComponent } from './features/admin/pharmacies/edit-storage/edit-storage.component';
 import { AddHospitalComponent } from './features/admin/hospitals/add-hospital/add-hospital.component';
 import { HospitalListComponent } from './features/admin/hospitals/hospital-list/hospital-list.component';
-import { EditStaffHospitalComponent } from './features/admin/hospitals/edit-staff-hospital/edit-staff-hospital.component';
+import { AddOrderComponent } from './features/orders/add-order/add-order.component';
+import { EditUserComponent } from './features/admin/users/edit-user/edit-user.component';
+import { ResolveOrderComponent } from './features/orders/resolve-order/resolve-order.component';
 
 @NgModule({
   declarations: [
@@ -33,11 +34,12 @@ import { EditStaffHospitalComponent } from './features/admin/hospitals/edit-staf
     AddPharmacyComponent,
     AddUserComponent,
     UserListComponent,
-    EditStaffPharmacyComponent,
     EditStorageComponent,
     AddHospitalComponent,
     HospitalListComponent,
-    EditStaffHospitalComponent
+    AddOrderComponent,
+    EditUserComponent,
+    ResolveOrderComponent
   ],
   imports: [
     BrowserModule,
