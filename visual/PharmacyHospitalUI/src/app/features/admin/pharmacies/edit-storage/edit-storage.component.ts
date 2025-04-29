@@ -32,7 +32,6 @@ export class EditStorageComponent implements OnInit, OnDestroy{
   
       const updateRequest: UpdatePharmacyRequest = {
         name: this.pharmacy.name,
-        staff: this.pharmacy.staff,
         storage: this.pharmacy.storage
       };
       console.log(updateRequest);
