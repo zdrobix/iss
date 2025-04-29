@@ -6,9 +6,7 @@ export interface User {
     username: string,
     name: string,
     password: string,
-    role: string
-    pharmacyId: number | null,
-    hospitalId: number | null,
+    role: string,
     pharmacy: Pharmacy | null,
     hospital: Hospital | null,
 }
