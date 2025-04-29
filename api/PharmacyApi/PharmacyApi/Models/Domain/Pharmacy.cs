@@ -1,23 +1,23 @@
 ﻿namespace PharmacyApi.Models.Domain
 {
-	public class Pharmacy : OrderEntityContainer
+	public class Pharmacy : Entity<int>
 	{
 		public string Name { get; set; }
-		public ICollection<User> Staff { get; set; } = new List<User>();
 		public DrugStorage Storage { get; set; }
+		public OrderEntityContainer OrderContainer { get; set; }
 
-		public Pharmacy(string name, ICollection<User> staff, DrugStorage storage, ICollection<PlacedOrder> placedOrders, ICollection<ResolvedOrder> resolvedOrders)
-			: base(placedOrders, resolvedOrders)
+		public Pharmacy(string name, DrugStorage storage, OrderEntityContainer orderContainer)
 		{
 			Name = name;
-			Staff = staff;
 			Storage = storage;
+			OrderContainer = orderContainer;
 		}
 
-		public Pharmacy() : base( new List<PlacedOrder>(), new List<ResolvedOrder>())
+		public Pharmacy()
 		{
 			Name = "";
 			Storage = new DrugStorage();
+			OrderContainer = new OrderEntityContainer();
 		}
 	}
 }
