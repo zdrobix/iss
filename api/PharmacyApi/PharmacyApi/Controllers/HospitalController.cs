@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PharmacyApi.Models.Domain;
 using PharmacyApi.Models.DTO;
 using PharmacyApi.Repo.Interface;
+using Serilog;
 
 namespace PharmacyApi.Controllers
 {
@@ -11,10 +12,12 @@ namespace PharmacyApi.Controllers
 	public class HospitalController : ControllerBase
 	{
 		private readonly IHospitalRepository hospitalRepository;
+		private readonly IUserRepository userRepository;
 
-        public HospitalController(IHospitalRepository hospitalRepository)
+		public HospitalController(IHospitalRepository hospitalRepository, IUserRepository userRepository)
         {
 			this.hospitalRepository = hospitalRepository;
+			this.userRepository = userRepository;
 		}
 
 		// POST: https://localhost:7282/api/hospital
@@ -23,26 +26,15 @@ namespace PharmacyApi.Controllers
 		{
 			var hospital = new Hospital(
 				request.Name,
-				new List<User>(),
-				new List<PlacedOrder>(),
-				new List<ResolvedOrder>()
+				new OrderEntityContainer()
 			);
 			hospital = await hospitalRepository.CreateAsync(hospital);
 			return Ok(
 				new HospitalDTO
 				{
 					Id = hospital.Id,
-					Name = hospital.Name,
-					Staff = hospital.Staff.Select(staff => new UserDTO
-					{
-						Name = staff.Name,
-						Username = staff.Username,
-						Role = staff.Role,
-						Password = staff.Password,
-						HospitalId = staff.HospitalId
-					}).ToList()
+					Name = hospital.Name
 				}
-
 			);
 		}
 
@@ -51,21 +43,17 @@ namespace PharmacyApi.Controllers
 		[Route("{id:int}")]
 		public async Task<IActionResult> GetHospitalById(int id)
 		{
+			Log.Information($"Searching for a hospital with id {id}");
 			var hospital = await hospitalRepository.GetById(id);
 			if (hospital == null)
+			{
+				Log.Information($"Couldn't find hospital with id {id}");
 				return NotFound();
+			}
 			return Ok(
 				new HospitalDTO
 				{
-					Name = hospital.Name,
-					Staff = hospital.Staff.Select(staff => new UserDTO
-					{
-							Name = staff.Name,
-							Username = staff.Username,
-							Role = staff.Role,
-							Password = staff.Password,
-							HospitalId = staff.HospitalId
-					}).ToList()
+					Name = hospital.Name
 				}
 			);
 		}
@@ -74,6 +62,7 @@ namespace PharmacyApi.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAllHospitals()
 		{
+			Log.Information("Getting all hospitals");
 			var hospitals = await hospitalRepository.GetAllAsync();
 			if (hospitals == null)
 				return NotFound();
@@ -82,15 +71,38 @@ namespace PharmacyApi.Controllers
 				{
 					Id = hospital.Id,
 					Name = hospital.Name,
-					Staff = hospital.Staff.Select(staff => new UserDTO
-					{
-						Name = staff.Name,
-						Username = staff.Username,
-						Password = staff.Password,
-						Role = staff.Role,
-						HospitalId = staff.HospitalId
-					}).ToList()
 				}));
+		}
+
+		// PUT : https://localhost:7282/api/hospital{id}
+		[HttpPut]
+		[Route("{id:int}")]
+		public async Task<IActionResult> UpdateHospital([FromRoute] int id, [FromBody] UpdateHospitalRequestDTO request)
+		{
+			Log.Information($"Trying to update hospital with id {id}");
+			var existingHospital = await this.hospitalRepository.GetById(id);
+
+			if (existingHospital == null)
+			{
+				Log.Information($"Couldn't find hospital with id {id}");
+				return NotFound();
+			}
+
+			existingHospital.Name = request.Name;
+			Log.Information($"Updating hospital with id {id}");
+			existingHospital = await hospitalRepository.UpdateAsync(existingHospital);
+			if (existingHospital == null)
+			{
+				Log.Information($"Couldn't update hospital with id {id}");
+				return NotFound();
+			}
+			return Ok(
+				new HospitalDTO
+				{
+					Id = existingHospital.Id,
+					Name = existingHospital.Name,
+				}
+			);
 		}
 	}
 }
