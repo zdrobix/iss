@@ -2,6 +2,7 @@
 using PharmacyApi.Data;
 using PharmacyApi.Models.Domain;
 using PharmacyApi.Repo.Interface;
+using Serilog;
 
 namespace PharmacyApi.Repo.Implementation
 {
@@ -34,29 +35,33 @@ namespace PharmacyApi.Repo.Implementation
 			return user;
 		}
 
-		public async Task<IEnumerable<User>> GetAllAsync()
-		{
-			return await dbContext.Users.ToListAsync();
-		}
+		public async Task<IEnumerable<User>> GetAllAsync() =>
+			await dbContext.Users
+					.Include(u => u.Hospital)
+					.Include(u => u.Pharmacy)
+					.ToListAsync();
 
-		public async Task<User?> GetById(int id)
-		{
-			return await dbContext.Users.FindAsync(id);
-		}
+		public async Task<User?> GetById(int id) =>
+			await dbContext.Users
+						.Include(u => u.Hospital)
+						.Include(u => u.Pharmacy)
+						.FirstOrDefaultAsync(u => u.Id == id);
 
-		public async Task<User?> GetByUsername(string username)
-		{
-			return await dbContext.Users
+		public async Task<User?> GetByUsername(string username) =>
+			await dbContext.Users
+				.Include(u => u.Hospital)
+				.Include(u => u.Pharmacy)
 				.FirstOrDefaultAsync(u => u.Username == username);
-		}
 
 		public async Task<User?> UpdateAsync(User user)
 		{
-			var existingUser = await dbContext.Users.FindAsync(user.Id);
+			Log.Information($"Updating user {user.Name}");
+			var existingUser = await dbContext.Users
+								.Include(u => u.Hospital)
+								.Include(u => u.Pharmacy)
+									.FirstOrDefaultAsync(u => u.Id == user.Id);
 			if (existingUser == null)
-			{
 				return null;
-			}
 
 			dbContext.Entry(existingUser).CurrentValues.SetValues(user);
 			await dbContext.SaveChangesAsync();
