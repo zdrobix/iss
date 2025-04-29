@@ -1,0 +1,44 @@
+<div class="container">
+    <br>
+    <div class="d-flex justify-content-center gap-3 mt-3">
+        <div class="card p-3" style="max-height: 500px;" *ngIf="hasOrderedAnything">
+            <h3 style="margin: 3px">Order</h3>
+            <div class="overflow-auto">
+            <ng-container *ngIf="orderedDrugs$ | async as orderedDrugs">
+                <table class="table mt-3">
+                    <tbody>
+                        <tr *ngFor="let orderedDrug of orderedDrugs">
+                            <td>{{orderedDrug.drug.name}}</td>
+                            <td>{{orderedDrug.drug.price}} x {{orderedDrug.quantity}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>{{orderTotal | number:'1.2-2'}}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+            </div>
+            <button class="btn btn-primary mt-3" (click)="placeOrder()">Place Order</button>
+        </div>
+        <div class="card p-3 overflow-auto" style="max-height: 500px;">
+            <h3 style="margin: 3px;">Drug Menu</h3>
+            <ng-container *ngIf="drugs$ | async as drugs">
+                <table class="table mt-3">
+                    <tbody>
+                        <tr *ngFor="let drug of drugs">
+                            <td>{{drug.name}}</td>
+                            <td>{{drug.price}}</td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <input type="number" class="w-50" name="quantity" id="quantity" #quantity placeholder="Quantity"/>
+                                    <button class="btn btn-primary w-50" (click)="addDrugToOrder(drug, +quantity.value)">Add to Order</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+        </div>
+    </div>
+</div>
