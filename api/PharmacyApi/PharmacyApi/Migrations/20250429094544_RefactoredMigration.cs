@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PharmacyApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class RefactoredMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,36 +38,15 @@ namespace PharmacyApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Hospitals",
+                name: "OrderContainers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Hospitals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pharmacies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StorageId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pharmacies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pharmacies_DrugStorages_StorageId",
-                        column: x => x.StorageId,
-                        principalTable: "DrugStorages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_OrderContainers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,6 +76,53 @@ namespace PharmacyApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Hospitals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderContainerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hospitals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hospitals_OrderContainers_OrderContainerId",
+                        column: x => x.OrderContainerId,
+                        principalTable: "OrderContainers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pharmacies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StorageId = table.Column<int>(type: "int", nullable: false),
+                    OrderContainerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pharmacies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pharmacies_DrugStorages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "DrugStorages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pharmacies_OrderContainers_OrderContainerId",
+                        column: x => x.OrderContainerId,
+                        principalTable: "OrderContainers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -106,8 +132,8 @@ namespace PharmacyApi.Migrations
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalId = table.Column<int>(type: "int", nullable: true),
-                    PharmacyId = table.Column<int>(type: "int", nullable: true)
+                    PharmacyId = table.Column<int>(type: "int", nullable: true),
+                    HospitalId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,67 +151,41 @@ namespace PharmacyApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlacedOrders",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PlacedById = table.Column<int>(type: "int", nullable: false),
-                    HospitalId = table.Column<int>(type: "int", nullable: true),
-                    PharmacyId = table.Column<int>(type: "int", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ResolvedById = table.Column<int>(type: "int", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderEntityContainerId = table.Column<int>(type: "int", nullable: true),
+                    OrderEntityContainerId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlacedOrders", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlacedOrders_Hospitals_HospitalId",
-                        column: x => x.HospitalId,
-                        principalTable: "Hospitals",
+                        name: "FK_Orders_OrderContainers_OrderEntityContainerId",
+                        column: x => x.OrderEntityContainerId,
+                        principalTable: "OrderContainers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PlacedOrders_Pharmacies_PharmacyId",
-                        column: x => x.PharmacyId,
-                        principalTable: "Pharmacies",
+                        name: "FK_Orders_OrderContainers_OrderEntityContainerId1",
+                        column: x => x.OrderEntityContainerId1,
+                        principalTable: "OrderContainers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PlacedOrders_Users_PlacedById",
+                        name: "FK_Orders_Users_PlacedById",
                         column: x => x.PlacedById,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ResolvedOrders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ResolvedById = table.Column<int>(type: "int", nullable: false),
-                    HospitalId = table.Column<int>(type: "int", nullable: true),
-                    PharmacyId = table.Column<int>(type: "int", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ResolvedOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ResolvedOrders_Hospitals_HospitalId",
-                        column: x => x.HospitalId,
-                        principalTable: "Hospitals",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ResolvedOrders_Pharmacies_PharmacyId",
-                        column: x => x.PharmacyId,
-                        principalTable: "Pharmacies",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ResolvedOrders_Users_ResolvedById",
+                        name: "FK_Orders_Users_ResolvedById",
                         column: x => x.ResolvedById,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -196,8 +196,7 @@ namespace PharmacyApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     DrugId = table.Column<int>(type: "int", nullable: false),
-                    PlacedOrderId = table.Column<int>(type: "int", nullable: true),
-                    ResolvedOrderId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,16 +208,16 @@ namespace PharmacyApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderedDrugs_PlacedOrders_PlacedOrderId",
-                        column: x => x.PlacedOrderId,
-                        principalTable: "PlacedOrders",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_OrderedDrugs_ResolvedOrders_ResolvedOrderId",
-                        column: x => x.ResolvedOrderId,
-                        principalTable: "ResolvedOrders",
+                        name: "FK_OrderedDrugs_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hospitals_OrderContainerId",
+                table: "Hospitals",
+                column: "OrderContainerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderedDrugs_DrugId",
@@ -226,49 +225,39 @@ namespace PharmacyApi.Migrations
                 column: "DrugId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderedDrugs_PlacedOrderId",
+                name: "IX_OrderedDrugs_OrderId",
                 table: "OrderedDrugs",
-                column: "PlacedOrderId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderedDrugs_ResolvedOrderId",
-                table: "OrderedDrugs",
-                column: "ResolvedOrderId");
+                name: "IX_Orders_OrderEntityContainerId",
+                table: "Orders",
+                column: "OrderEntityContainerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_OrderEntityContainerId1",
+                table: "Orders",
+                column: "OrderEntityContainerId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_PlacedById",
+                table: "Orders",
+                column: "PlacedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ResolvedById",
+                table: "Orders",
+                column: "ResolvedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pharmacies_OrderContainerId",
+                table: "Pharmacies",
+                column: "OrderContainerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pharmacies_StorageId",
                 table: "Pharmacies",
                 column: "StorageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlacedOrders_HospitalId",
-                table: "PlacedOrders",
-                column: "HospitalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlacedOrders_PharmacyId",
-                table: "PlacedOrders",
-                column: "PharmacyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlacedOrders_PlacedById",
-                table: "PlacedOrders",
-                column: "PlacedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResolvedOrders_HospitalId",
-                table: "ResolvedOrders",
-                column: "HospitalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResolvedOrders_PharmacyId",
-                table: "ResolvedOrders",
-                column: "PharmacyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResolvedOrders_ResolvedById",
-                table: "ResolvedOrders",
-                column: "ResolvedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StoredDrugs_DrugId",
@@ -301,10 +290,7 @@ namespace PharmacyApi.Migrations
                 name: "StoredDrugs");
 
             migrationBuilder.DropTable(
-                name: "PlacedOrders");
-
-            migrationBuilder.DropTable(
-                name: "ResolvedOrders");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Drugs");
@@ -320,6 +306,9 @@ namespace PharmacyApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "DrugStorages");
+
+            migrationBuilder.DropTable(
+                name: "OrderContainers");
         }
     }
 }

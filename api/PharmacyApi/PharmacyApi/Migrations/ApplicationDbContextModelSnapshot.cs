@@ -67,9 +67,58 @@ namespace PharmacyApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrderContainerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("OrderContainerId");
+
                     b.ToTable("Hospitals");
+                });
+
+            modelBuilder.Entity("PharmacyApi.Models.Domain.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderEntityContainerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlacedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ResolvedById")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderEntityContainerId");
+
+                    b.HasIndex("PlacedById");
+
+                    b.HasIndex("ResolvedById");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("PharmacyApi.Models.Domain.OrderEntityContainer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderContainers");
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.OrderedDrug", b =>
@@ -83,22 +132,17 @@ namespace PharmacyApi.Migrations
                     b.Property<int>("DrugId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlacedOrderId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ResolvedOrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DrugId");
 
-                    b.HasIndex("PlacedOrderId");
-
-                    b.HasIndex("ResolvedOrderId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderedDrugs");
                 });
@@ -115,76 +159,19 @@ namespace PharmacyApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrderContainerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrderContainerId");
+
                     b.HasIndex("StorageId");
 
                     b.ToTable("Pharmacies");
-                });
-
-            modelBuilder.Entity("PharmacyApi.Models.Domain.PlacedOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("HospitalId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PharmacyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlacedById")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HospitalId");
-
-                    b.HasIndex("PharmacyId");
-
-                    b.HasIndex("PlacedById");
-
-                    b.ToTable("PlacedOrders");
-                });
-
-            modelBuilder.Entity("PharmacyApi.Models.Domain.ResolvedOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("HospitalId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PharmacyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResolvedById")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HospitalId");
-
-                    b.HasIndex("PharmacyId");
-
-                    b.HasIndex("ResolvedById");
-
-                    b.ToTable("ResolvedOrders");
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.StoredDrug", b =>
@@ -252,6 +239,38 @@ namespace PharmacyApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PharmacyApi.Models.Domain.Hospital", b =>
+                {
+                    b.HasOne("PharmacyApi.Models.Domain.OrderEntityContainer", "OrderContainer")
+                        .WithMany()
+                        .HasForeignKey("OrderContainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderContainer");
+                });
+
+            modelBuilder.Entity("PharmacyApi.Models.Domain.Order", b =>
+                {
+                    b.HasOne("PharmacyApi.Models.Domain.OrderEntityContainer", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderEntityContainerId");
+
+                    b.HasOne("PharmacyApi.Models.Domain.User", "PlacedBy")
+                        .WithMany()
+                        .HasForeignKey("PlacedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmacyApi.Models.Domain.User", "ResolvedBy")
+                        .WithMany()
+                        .HasForeignKey("ResolvedById");
+
+                    b.Navigation("PlacedBy");
+
+                    b.Navigation("ResolvedBy");
+                });
+
             modelBuilder.Entity("PharmacyApi.Models.Domain.OrderedDrug", b =>
                 {
                     b.HasOne("PharmacyApi.Models.Domain.Drug", "Drug")
@@ -260,64 +279,30 @@ namespace PharmacyApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharmacyApi.Models.Domain.PlacedOrder", null)
+                    b.HasOne("PharmacyApi.Models.Domain.Order", null)
                         .WithMany("OrderedDrugs")
-                        .HasForeignKey("PlacedOrderId");
-
-                    b.HasOne("PharmacyApi.Models.Domain.ResolvedOrder", null)
-                        .WithMany("OrderedDrugs")
-                        .HasForeignKey("ResolvedOrderId");
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Drug");
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.Pharmacy", b =>
                 {
+                    b.HasOne("PharmacyApi.Models.Domain.OrderEntityContainer", "OrderContainer")
+                        .WithMany()
+                        .HasForeignKey("OrderContainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PharmacyApi.Models.Domain.DrugStorage", "Storage")
                         .WithMany()
                         .HasForeignKey("StorageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("OrderContainer");
+
                     b.Navigation("Storage");
-                });
-
-            modelBuilder.Entity("PharmacyApi.Models.Domain.PlacedOrder", b =>
-                {
-                    b.HasOne("PharmacyApi.Models.Domain.Hospital", null)
-                        .WithMany("PlacedOrders")
-                        .HasForeignKey("HospitalId");
-
-                    b.HasOne("PharmacyApi.Models.Domain.Pharmacy", null)
-                        .WithMany("PlacedOrders")
-                        .HasForeignKey("PharmacyId");
-
-                    b.HasOne("PharmacyApi.Models.Domain.User", "PlacedBy")
-                        .WithMany()
-                        .HasForeignKey("PlacedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlacedBy");
-                });
-
-            modelBuilder.Entity("PharmacyApi.Models.Domain.ResolvedOrder", b =>
-                {
-                    b.HasOne("PharmacyApi.Models.Domain.Hospital", null)
-                        .WithMany("ResolvedOrders")
-                        .HasForeignKey("HospitalId");
-
-                    b.HasOne("PharmacyApi.Models.Domain.Pharmacy", null)
-                        .WithMany("ResolvedOrders")
-                        .HasForeignKey("PharmacyId");
-
-                    b.HasOne("PharmacyApi.Models.Domain.User", "ResolvedBy")
-                        .WithMany()
-                        .HasForeignKey("ResolvedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ResolvedBy");
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.StoredDrug", b =>
@@ -338,11 +323,11 @@ namespace PharmacyApi.Migrations
             modelBuilder.Entity("PharmacyApi.Models.Domain.User", b =>
                 {
                     b.HasOne("PharmacyApi.Models.Domain.Hospital", "Hospital")
-                        .WithMany("Staff")
+                        .WithMany()
                         .HasForeignKey("HospitalId");
 
                     b.HasOne("PharmacyApi.Models.Domain.Pharmacy", "Pharmacy")
-                        .WithMany("Staff")
+                        .WithMany()
                         .HasForeignKey("PharmacyId");
 
                     b.Navigation("Hospital");
@@ -355,32 +340,14 @@ namespace PharmacyApi.Migrations
                     b.Navigation("StoredDrugs");
                 });
 
-            modelBuilder.Entity("PharmacyApi.Models.Domain.Hospital", b =>
-                {
-                    b.Navigation("PlacedOrders");
-
-                    b.Navigation("ResolvedOrders");
-
-                    b.Navigation("Staff");
-                });
-
-            modelBuilder.Entity("PharmacyApi.Models.Domain.Pharmacy", b =>
-                {
-                    b.Navigation("PlacedOrders");
-
-                    b.Navigation("ResolvedOrders");
-
-                    b.Navigation("Staff");
-                });
-
-            modelBuilder.Entity("PharmacyApi.Models.Domain.PlacedOrder", b =>
+            modelBuilder.Entity("PharmacyApi.Models.Domain.Order", b =>
                 {
                     b.Navigation("OrderedDrugs");
                 });
 
-            modelBuilder.Entity("PharmacyApi.Models.Domain.ResolvedOrder", b =>
+            modelBuilder.Entity("PharmacyApi.Models.Domain.OrderEntityContainer", b =>
                 {
-                    b.Navigation("OrderedDrugs");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
