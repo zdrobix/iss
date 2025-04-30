@@ -44,19 +44,8 @@ namespace PharmacyApi.Repo.Implementation
 				return null;
 
 			dbContext.StoredDrugs.RemoveRange(existing.StoredDrugs);
-			existing.StoredDrugs = new List<StoredDrug>();
 
-			drugStorage.StoredDrugs.Select(sd =>
-			{
-				existing.StoredDrugs.Add(
-					new StoredDrug
-					{
-						Drug = sd.Drug,
-						Quantity = sd.Quantity
-					}
-				);
-				return sd;
-			});
+			existing.StoredDrugs = drugStorage.StoredDrugs;
 
 			await dbContext.SaveChangesAsync();
 			return existing;
