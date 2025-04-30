@@ -33,19 +33,22 @@ namespace PharmacyApi.Controllers
 				return BadRequest();
 			}
 			Log.Information($"Creating order by {request.PlacedBy.Name}");
+
+			var orderedDrugs = new List<OrderedDrug>();
+
+			foreach (var d in request.OrderedDrugs)
+			{
+				var drug = await drugRepository.GetById(d.Drug.Id);
+				orderedDrugs.Add(new OrderedDrug
+				{
+					Drug = drug,
+					Quantity = d.Quantity
+				});
+			}
 			var order = new Order
 			{
 				PlacedBy = await userRepository.GetById(request.PlacedBy.Id),
-				OrderedDrugs = await Task.WhenAll(request.OrderedDrugs.Select(async d =>
-										{
-											var drug = await drugRepository.GetById(d.Drug.Id);
-
-											return new OrderedDrug
-											{
-												Drug = drug,
-												Quantity = d.Quantity
-											};
-										})),
+				OrderedDrugs = orderedDrugs,
 				DateTime = request.DateTime
 			};
 
