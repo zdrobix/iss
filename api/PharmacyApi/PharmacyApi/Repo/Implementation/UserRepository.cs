@@ -39,18 +39,27 @@ namespace PharmacyApi.Repo.Implementation
 			await dbContext.Users
 					.Include(u => u.Hospital)
 					.Include(u => u.Pharmacy)
+						.ThenInclude(p => p.Storage)
+							.ThenInclude(s => s.StoredDrugs)
+								.ThenInclude(s => s.Drug)
 					.ToListAsync();
 
 		public async Task<User?> GetById(int id) =>
 			await dbContext.Users
 						.Include(u => u.Hospital)
 						.Include(u => u.Pharmacy)
+							.ThenInclude(p => p.Storage)
+								.ThenInclude(s => s.StoredDrugs)
+									.ThenInclude(s => s.Drug)
 						.FirstOrDefaultAsync(u => u.Id == id);
 
 		public async Task<User?> GetByUsername(string username) =>
 			await dbContext.Users
 				.Include(u => u.Hospital)
 				.Include(u => u.Pharmacy)
+					.ThenInclude(p => p.Storage)
+							.ThenInclude(s => s.StoredDrugs)
+								.ThenInclude(s => s.Drug)
 				.FirstOrDefaultAsync(u => u.Username == username);
 
 		public async Task<User?> UpdateAsync(User user)
@@ -59,6 +68,9 @@ namespace PharmacyApi.Repo.Implementation
 			var existingUser = await dbContext.Users
 								.Include(u => u.Hospital)
 								.Include(u => u.Pharmacy)
+									.ThenInclude(p => p.Storage)
+										.ThenInclude(s => s.StoredDrugs)
+											.ThenInclude(s => s.Drug)
 									.FirstOrDefaultAsync(u => u.Id == user.Id);
 			if (existingUser == null)
 				return null;
