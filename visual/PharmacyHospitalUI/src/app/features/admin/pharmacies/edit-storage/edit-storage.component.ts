@@ -7,6 +7,8 @@ import { PharmaciesService } from '../services/pharmacies.service';
 import { DrugsService } from '../../drugs/services/drugs.service';
 import { UpdatePharmacyRequest } from 'src/app/features/models/update-pharmacy-request.model';
 import { RouterModule } from '@angular/router';
+import { UpdateDrugStorageRequest } from 'src/app/features/models/update-drogstorage-request.model';
+import { AddStoredDrugRequest } from 'src/app/features/models/add-storeddrug-request.model';
 
 @Component({
   selector: 'app-edit-storage',
@@ -17,7 +19,7 @@ export class EditStorageComponent implements OnInit, OnDestroy{
   
   id: number | null = null;
   pharmacy?: Pharmacy | null = null;
-  private updatePharmacySubscription?: Subscription;
+  private updateDrugStorageSubscription?: Subscription;
   private getPharmacySubscription?: Subscription;
   private routeSubscription?: Subscription;
   drugs$: Observable<Drug[]> | undefined;
@@ -26,20 +28,28 @@ export class EditStorageComponent implements OnInit, OnDestroy{
   }
 
 
-  updatePharmacy() {
+  updateStorage() {
       if  (!this.pharmacy || !this.id)
         return;
-  
-      const updateRequest: UpdatePharmacyRequest = {
-        name: this.pharmacy.name,
-        storage: this.pharmacy.storage
-      };
-      console.log(updateRequest);
-      this.updatePharmacySubscription = this.pharmaciesService.updatePharmacy(this.id, updateRequest).subscribe({
-        next: () => {
-          this.router.navigateByUrl('/pharmacies');
-        }
-      }); 
+      console.log(this.pharmacy.storage)
+      for (let i = 0; i < this.pharmacy.storage.storedDrugs.length; i++) {
+        const storedDrug = this.pharmacy.storage.storedDrugs[i];
+        if (storedDrug.drug.id === 0)
+          continue
+        const request: AddStoredDrugRequest = {
+          drug: storedDrug.drug,
+          quantity: storedDrug.quantity,
+          storage: {
+            id: this.pharmacy.storage.id,
+            storedDrugs: []
+          }
+        };
+        this.updateDrugStorageSubscription = this.pharmaciesService.addUpdateStoredDrug(request).subscribe({
+          next: (d) => {
+            //console.log(d);
+          }
+        });
+      }
     }
 
   addToDrugStorage(drug: Drug, quantity: number) {
@@ -49,8 +59,13 @@ export class EditStorageComponent implements OnInit, OnDestroy{
       this.pharmacy.storage.storedDrugs = []; 
     this.pharmacy.storage.storedDrugs.push( 
       {
+        id: 0,
         quantity: quantity,
-        drug: drug
+        drug: drug,
+        storage: {
+          id: this.pharmacy.storage.id,
+          storedDrugs: []
+        }
       }
     );
   }
@@ -71,7 +86,7 @@ export class EditStorageComponent implements OnInit, OnDestroy{
 
 
   ngOnDestroy(): void {
-    this.updatePharmacySubscription?.unsubscribe();
+    this.updateDrugStorageSubscription?.unsubscribe();
     this.getPharmacySubscription?.unsubscribe();
     this.routeSubscription?.unsubscribe();
   }
