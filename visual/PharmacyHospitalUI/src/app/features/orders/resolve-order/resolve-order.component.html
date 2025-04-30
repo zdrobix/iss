@@ -1,1 +1,35 @@
-<p>resolve-order works!</p>
+<div class="container">
+    <br>
+    <div class="d-flex justify-content-center gap-3 mt-3">
+        <div class="card p-3" style="max-height: 500px;" *ngIf="selectedOrder$ | async as selectedOrder">
+            <h3 style="margin: 3px">Order #{{selectedOrder.id}}</h3>
+            <div class="overflow-auto mt-3">
+                <div *ngFor="let orderedDrug of selectedOrder.orderedDrugs">
+                    <p>
+                        {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
+                    </p>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-3" (click)="resolveOrder()">Resolve Order</button>
+        </div>
+        <div class="card p-3 overflow-auto" style="max-height: 500px;">
+            <h3 style="margin: 3px;">Drug Menu</h3>
+            <ng-container *ngIf="orders$ | async as orders">
+                <table class="table mt-3">
+                    <tbody>
+                        <tr *ngFor="let order of orders">
+                            <td>
+                                <div class="card p-3 mt-3">
+                                    <h1>Order #{{order.id}}</h1>
+                                    <p>Ordered By: {{order.placedBy.name}}</p>
+                                    <p *ngIf="order.placedBy.hospital">Hospital: {{order.placedBy.hospital.name}}</p>
+                                    <button class="btn btn-primary" (click)="selectOrder(order)">View Order</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+        </div>
+    </div>
+</div>
