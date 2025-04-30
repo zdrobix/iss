@@ -24,24 +24,39 @@ namespace PharmacyApi.Repo.Implementation
 		public async Task<IEnumerable<DrugStorage>> GetAllAsync() =>
 			await dbContext.DrugStorages
 				.Include(ds => ds.StoredDrugs)
+					.ThenInclude(sd => sd.Drug)
 				.ToListAsync();
 
 		public async Task<DrugStorage?> GetById(int id) =>
 			await dbContext.DrugStorages
 				.Include(ds => ds.StoredDrugs)
+					.ThenInclude(sd => sd.Drug)
 				.FirstOrDefaultAsync(ds => ds.Id == id);
 
 		public async Task<DrugStorage?> UpdateAsync(DrugStorage drugStorage)
 		{
 			var existing = await dbContext.DrugStorages
 				.Include(ds => ds.StoredDrugs)
+					.ThenInclude(sd => sd.Drug)
 				.FirstOrDefaultAsync(ds => ds.Id == drugStorage.Id);
 
 			if (existing == null)
 				return null;
 
-			dbContext.Entry(existing).CurrentValues.SetValues(drugStorage);
-			existing.StoredDrugs = drugStorage.StoredDrugs;
+			dbContext.StoredDrugs.RemoveRange(existing.StoredDrugs);
+			existing.StoredDrugs = new List<StoredDrug>();
+
+			drugStorage.StoredDrugs.Select(sd =>
+			{
+				existing.StoredDrugs.Add(
+					new StoredDrug
+					{
+						Drug = sd.Drug,
+						Quantity = sd.Quantity
+					}
+				);
+				return sd;
+			});
 
 			await dbContext.SaveChangesAsync();
 			return existing;
