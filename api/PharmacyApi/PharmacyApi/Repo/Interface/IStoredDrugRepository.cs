@@ -7,6 +7,7 @@ namespace PharmacyApi.Repo.Interface
 		Task<StoredDrug> CreateAsync(StoredDrug storedDrug);
 		Task<IEnumerable<StoredDrug>> GetAllAsync();
 		Task<StoredDrug?> GetById(int id);
+		Task<StoredDrug?> GetByDrugIdAndStorageId(int drugId, int storageId);
 		Task<StoredDrug?> UpdateAsync(StoredDrug storedDrug);
 		Task<StoredDrug> DeleteAsync(int id);
 	}

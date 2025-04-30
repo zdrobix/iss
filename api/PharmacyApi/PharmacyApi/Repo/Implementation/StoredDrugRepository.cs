@@ -31,6 +31,11 @@ namespace PharmacyApi.Repo.Implementation
 				.Include(sd => sd.Drug)
 				.FirstOrDefaultAsync(sd => sd.Id == id);
 
+		public async Task<StoredDrug?> GetByDrugIdAndStorageId(int drugId, int storageId) =>
+			await dbContext.StoredDrugs
+				.Include(sd => sd.Drug)
+				.FirstOrDefaultAsync(sd => sd.Drug.Id == drugId && sd.Storage.Id == storageId);
+
 		public async Task<StoredDrug?> UpdateAsync(StoredDrug storedDrug)
 		{
 			var existing = await dbContext.StoredDrugs
