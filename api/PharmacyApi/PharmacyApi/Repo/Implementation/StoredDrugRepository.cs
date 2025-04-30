@@ -24,6 +24,7 @@ namespace PharmacyApi.Repo.Implementation
 		public async Task<IEnumerable<StoredDrug>> GetAllAsync() =>
 			await dbContext.StoredDrugs
 				.Include(sd => sd.Drug)
+				.Include(sd => sd.Storage)
 				.ToListAsync();
 
 		public async Task<StoredDrug?> GetById(int id) =>
@@ -34,12 +35,14 @@ namespace PharmacyApi.Repo.Implementation
 		public async Task<StoredDrug?> GetByDrugIdAndStorageId(int drugId, int storageId) =>
 			await dbContext.StoredDrugs
 				.Include(sd => sd.Drug)
+				.Include(sd => sd.Storage)
 				.FirstOrDefaultAsync(sd => sd.Drug.Id == drugId && sd.Storage.Id == storageId);
 
 		public async Task<StoredDrug?> UpdateAsync(StoredDrug storedDrug)
 		{
 			var existing = await dbContext.StoredDrugs
 				.Include(sd => sd.Drug)
+				.Include(sd => sd.Storage)
 				.FirstOrDefaultAsync(sd => sd.Id == storedDrug.Id);
 
 			if (existing == null)
