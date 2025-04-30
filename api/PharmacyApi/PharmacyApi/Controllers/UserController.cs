@@ -117,7 +117,23 @@ namespace PharmacyApi.Controllers
 				{
 					Id = user.Pharmacy.Id,
 					Name = user.Pharmacy.Name,
-					Storage = new DrugStorageDTO()
+					Storage = new DrugStorageDTO
+					{
+						Id = user.Pharmacy.Storage.Id,
+						StoredDrugs = user.Pharmacy.Storage.StoredDrugs
+							.Select(storedDrug => new StoredDrugDTO
+							{
+								Id = storedDrug.Id,
+								Quantity = storedDrug.Quantity,
+								Drug = new DrugDTO
+								{
+									Id = storedDrug.Drug.Id,
+									Name = storedDrug.Drug.Name,
+									Price = storedDrug.Drug.Price
+								},
+								StorageId = user.Pharmacy.Storage.Id
+							}).ToList()
+					}
 				},
 				Hospital = user.Hospital == null ? null : new HospitalDTO
 				{ 
