@@ -2,7 +2,7 @@
 {
 	public class DrugStorage : Entity<int> 
 	{
-		public ICollection<StoredDrug> StoredDrugs { get; set; }
+		public ICollection<StoredDrug> StoredDrugs { get; set; } = new List<StoredDrug>();
 
 		public DrugStorage()
 		{
