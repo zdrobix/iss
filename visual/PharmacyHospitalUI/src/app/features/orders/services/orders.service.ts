@@ -6,6 +6,8 @@ import { Order } from '../../models/order.model';
 import { environment } from 'src/environment/environment';
 import { NumberSymbol } from '@angular/common';
 import { UpdateOrderRequest } from '../../models/update-order-request.model';
+import { DrugStorage } from '../../models/drug-storage.model';
+import { StoredDrug } from '../../models/stored-drug.mode';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +25,23 @@ export class OrdersService {
     return this.http.get<Order[]>(`${environment.apiBaseUrl}/api/order`);
   }
 
+  getUnresolvedOrders() : Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiBaseUrl}/api/order/unresolved`);
+  }
+
   getOrder(id: number) : Observable<Order> {
     return this.http.get<Order>(`${environment.apiBaseUrl}/api/order/${id}`)
   }
 
   updateOrder(id: number, request: UpdateOrderRequest) : Observable<Order> {
     return this.http.put<Order>(`${environment.apiBaseUrl}/api/order/${id}`, request)
+  }
+
+  getDrugStorage(id: number) : Observable<DrugStorage> {
+    return this.http.get<DrugStorage>(`${environment.apiBaseUrl}/api/drugstorage/${id}`);
+  }
+
+  getStoredDrug(drugId: number, storageId: number) : Observable<StoredDrug> {
+    return this.http.get<StoredDrug>(`${environment.apiBaseUrl}/api/storeddrug/${drugId}/stored/${storageId}`);
   }
 }
