@@ -33,6 +33,7 @@ namespace PharmacyApi.Controllers
 			return Ok(
 				new DrugStorageDTO
 				{
+					Id = drugStorage.Id,
 					StoredDrugs = drugStorage.StoredDrugs
 						.Select(
 							storedDrug => new StoredDrugDTO
@@ -60,6 +61,7 @@ namespace PharmacyApi.Controllers
 				drugStorages.Select(
 					drugStorage => new DrugStorageDTO
 					{
+						Id = drugStorage.Id,
 						StoredDrugs = drugStorage.StoredDrugs
 						.Select(
 							storedDrug => new StoredDrugDTO
@@ -113,6 +115,7 @@ namespace PharmacyApi.Controllers
 			return drugStorage == null ? BadRequest() : Ok(
 			new DrugStorageDTO
 			{
+				Id = drugStorage.Id,
 				StoredDrugs = drugStorage.StoredDrugs
 					.Select(
 						storedDrug => new StoredDrugDTO

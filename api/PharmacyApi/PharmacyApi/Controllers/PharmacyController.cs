@@ -36,6 +36,7 @@ namespace PharmacyApi.Controllers
 					Name = pharmacy.Name,
 					Storage = new DrugStorageDTO
 					{
+						Id = pharmacy.Storage.Id,
 						StoredDrugs = pharmacy.Storage.StoredDrugs
 									.Select(
 										storedDrug => new StoredDrugDTO
@@ -43,6 +44,7 @@ namespace PharmacyApi.Controllers
 											Quantity = storedDrug.Quantity,
 											Drug = new DrugDTO
 											{
+												Id = storedDrug.Drug.Id,
 												Name = storedDrug.Drug.Name,
 												Price = storedDrug.Drug.Price
 											}
@@ -68,6 +70,7 @@ namespace PharmacyApi.Controllers
 							Name = pharmacy.Name,
 							Storage = new DrugStorageDTO
 								{
+									Id = pharmacy.Storage.Id,	
 									StoredDrugs = pharmacy.Storage.StoredDrugs
 									.Select(
 										storedDrug => new StoredDrugDTO
@@ -75,6 +78,7 @@ namespace PharmacyApi.Controllers
 											Quantity = storedDrug.Quantity,
 											Drug = new DrugDTO
 											{
+												Id = storedDrug.Drug.Id,
 												Name = storedDrug.Drug.Name,
 												Price = storedDrug.Drug.Price
 											}
@@ -102,6 +106,7 @@ namespace PharmacyApi.Controllers
 					Name = pharmacy.Name,
 					Storage = new DrugStorageDTO
 					{
+						Id = pharmacy.Storage.Id,
 						StoredDrugs = pharmacy.Storage.StoredDrugs
 									.Select(
 										storedDrug => new StoredDrugDTO
@@ -109,6 +114,7 @@ namespace PharmacyApi.Controllers
 											Quantity = storedDrug.Quantity,
 											Drug = new DrugDTO
 											{
+												Id = storedDrug.Drug.Id,
 												Name = storedDrug.Drug.Name,
 												Price = storedDrug.Drug.Price
 											}
@@ -138,7 +144,7 @@ namespace PharmacyApi.Controllers
 
 			if (request.Storage != null && request.Storage.StoredDrugs != null)
 			{
-				existingPharmacy.Storage = new DrugStorage
+				existingPharmacy.Storage = (DrugStorage) new DrugStorage
 				{
 					StoredDrugs = request.Storage.StoredDrugs.Select(storedDrug => new StoredDrug
 					{
@@ -149,7 +155,7 @@ namespace PharmacyApi.Controllers
 							Price = storedDrug.Drug.Price
 						}
 					}).ToList()
-				};
+				}.SetId(existingPharmacy.Storage.Id);
 			} else Log.Information("No storage to update");
 
 			Log.Information("Updating pharmacy with id {id}", id);
@@ -173,6 +179,7 @@ namespace PharmacyApi.Controllers
 											Quantity = storedDrug.Quantity,
 											Drug = new DrugDTO
 											{
+												Id = storedDrug.Drug.Id,
 												Name = storedDrug.Drug.Name,
 												Price = storedDrug.Drug.Price
 											}
