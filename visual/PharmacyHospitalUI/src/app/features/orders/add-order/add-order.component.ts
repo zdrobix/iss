@@ -27,6 +27,7 @@ export class AddOrderComponent implements OnDestroy {
   private addOrderSubscription?: Subscription;
   private addDrugToOrderSubscription?: Subscription;
   private getOrderedDrugsSubscription?: Subscription;
+  private getLoggedInUserSubscription?: Subscription;
 
   constructor (private router: Router, private ordersService: OrdersService, private drugsService: DrugsService, private loginsService: LoginService) {
     this.drugs$ = this.drugsService.getDrugs();
@@ -63,7 +64,7 @@ export class AddOrderComponent implements OnDestroy {
   }
 
   placeOrder() {
-    this.loginsService.getLoggedInUser().pipe(take(1)).subscribe((user: User | null) => {
+    this.getLoggedInUserSubscription = this.loginsService.getLoggedInUser().pipe(take(1)).subscribe((user: User | null) => {
       if (user) {
         if (user.pharmacy?.storage) {
           user.pharmacy.storage.storedDrugs = [];
@@ -91,5 +92,6 @@ export class AddOrderComponent implements OnDestroy {
     this.addDrugToOrderSubscription?.unsubscribe();
     this.addOrderSubscription?.unsubscribe();
     this.getOrderedDrugsSubscription?.unsubscribe();
+    this.getLoggedInUserSubscription?.unsubscribe();
   }
 }
