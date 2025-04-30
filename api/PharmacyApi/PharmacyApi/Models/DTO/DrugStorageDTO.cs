@@ -2,6 +2,7 @@
 {
 	public class DrugStorageDTO 
 	{
-        public ICollection<StoredDrugDTO> StoredDrugs { get; set; } = new List<StoredDrugDTO>();
+		public int Id { get; set; }
+		public ICollection<StoredDrugDTO> StoredDrugs { get; set; } = new List<StoredDrugDTO>();
 	}
 }
