@@ -34,8 +34,16 @@ namespace PharmacyApi.Repo.Implementation
 		public async Task<IEnumerable<Drug>> GetAllAsync() =>
 			await dbContext.Drugs.ToListAsync();
 
-		public async Task<Drug?> GetById(int id) =>
-			await dbContext.Drugs.FirstOrDefaultAsync(d => d.Id == id);
+		public async Task<Drug?> GetById(int id)
+		{
+			var drug = await dbContext.Drugs.FindAsync(id);
+			var entry = dbContext.Entry(drug);
+			if (entry.State == EntityState.Detached)
+			{
+				this.dbContext.Attach(drug); 
+			}
+			return drug;
+		}
 
 		public Task<Drug?> UpdateAsync(Drug drug)
 		{
