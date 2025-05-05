@@ -39,7 +39,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Drugs");
+                    b.ToTable("Drugs", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.DrugStorage", b =>
@@ -52,7 +52,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DrugStorages");
+                    b.ToTable("DrugStorages", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.Hospital", b =>
@@ -74,7 +74,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasIndex("OrderContainerId");
 
-                    b.ToTable("Hospitals");
+                    b.ToTable("Hospitals", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.Order", b =>
@@ -105,7 +105,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasIndex("ResolvedById");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.OrderEntityContainer", b =>
@@ -118,7 +118,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderContainers");
+                    b.ToTable("OrderContainers", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.OrderedDrug", b =>
@@ -144,7 +144,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderedDrugs");
+                    b.ToTable("OrderedDrugs", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.Pharmacy", b =>
@@ -171,7 +171,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasIndex("StorageId");
 
-                    b.ToTable("Pharmacies");
+                    b.ToTable("Pharmacies", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.StoredDrug", b =>
@@ -197,7 +197,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasIndex("DrugStorageId");
 
-                    b.ToTable("StoredDrugs");
+                    b.ToTable("StoredDrugs", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.User", b =>
@@ -236,7 +236,7 @@ namespace PharmacyApi.Migrations
 
                     b.HasIndex("PharmacyId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyApi.Models.Domain.Hospital", b =>
