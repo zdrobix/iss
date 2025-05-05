@@ -22,7 +22,9 @@
             <button class="btn btn-primary mt-3" (click)="placeOrder()">Place Order</button>
         </div>
         <div class="card p-3 overflow-auto" style="max-height: 500px;">
-            <h3 style="margin: 3px;">Drug Menu</h3>
+            <div class="d-flex justify-content-start align-items-center">
+                <h3 style="margin: 3px;">Drug Menu</h3>
+            </div>
             <ng-container *ngIf="drugs$ | async as drugs">
                 <table class="table mt-3">
                     <tbody>
