@@ -93,8 +93,8 @@ namespace PharmacyApi.Controllers
 			);
 		}
 
-		// POST : https://localhost:7383/api/order{id}
-		[HttpPost]
+		// PUT : https://localhost:7383/api/order/{id}
+		[HttpPut]
 		[Route("{id:int}")]
 		public async Task<IActionResult> UpdateOrder([FromRoute] int id, [FromBody] UpdateOrderRequestDTO request)
 		{
@@ -103,14 +103,12 @@ namespace PharmacyApi.Controllers
 			{
 				return NotFound();
 			}
-			if (request.ResolvedBy == null)
+			var existing = await this.userRepository.GetById(request.ResolvedById);
+			if (existing == null)
 			{
-				return BadRequest("User cannot be null");
+				return BadRequest("User with id null.");
 			}
-			order.ResolvedBy = (User) new User { 
-				Name = request.ResolvedBy.Name, 
-				Role = request.ResolvedBy.Role, 
-			}.SetId(id);
+			order.ResolvedBy = existing;
 			order = await this.orderRepository.UpdateAsync(order);
 			return Ok(
 				DomainModelToDTO(order!)	
