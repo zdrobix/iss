@@ -21,6 +21,7 @@ import { HospitalListComponent } from './features/admin/hospitals/hospital-list/
 import { AddOrderComponent } from './features/orders/add-order/add-order.component';
 import { EditUserComponent } from './features/admin/users/edit-user/edit-user.component';
 import { ResolveOrderComponent } from './features/orders/resolve-order/resolve-order.component';
+import { HistoryOrderComponent } from './features/orders/history-order/history-order.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ResolveOrderComponent } from './features/orders/resolve-order/resolve-o
     HospitalListComponent,
     AddOrderComponent,
     EditUserComponent,
-    ResolveOrderComponent
+    ResolveOrderComponent,
+    HistoryOrderComponent
   ],
   imports: [
     BrowserModule,
