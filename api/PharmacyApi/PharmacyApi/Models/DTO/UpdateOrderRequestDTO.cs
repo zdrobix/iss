@@ -2,6 +2,6 @@
 {
 	public class UpdateOrderRequestDTO
 	{
-		public UserDTO? ResolvedBy { get; set; }
+		public int ResolvedById { get; set; }
 	}
 }

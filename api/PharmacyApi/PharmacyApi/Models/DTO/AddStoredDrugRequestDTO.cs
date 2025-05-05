@@ -4,6 +4,6 @@
 	{
 		public DrugDTO Drug { get; set; } 
 		public int Quantity { get; set; }
-		public DrugStorageDTO Storage { get; set; }
+		public int StorageId { get; set; }
 	}
 }
