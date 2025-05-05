@@ -13,12 +13,11 @@
                         {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
                     </p>
                     <p *ngIf="isDrugAvailable(orderedDrug.drug) === false" 
-                        class="bg-danger p-2 rounded">
+                        class="bg-opacity-75 bg-danger p-2 rounded">
                         {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
                     </p>
                 </div>
             </div>
-            <!-- <button class="btn btn-primary mt-3" (click)="checkOrder()">Check Order</button> -->
             <button class="btn btn-primary mt-3" (click)="resolveOrder()" [disabled]="orderIsValid === undefined || orderIsValid === false">Resolve Order</button>
         </div>
         <div class="card p-3 overflow-auto" style="max-height: 500px; width: 500px">
