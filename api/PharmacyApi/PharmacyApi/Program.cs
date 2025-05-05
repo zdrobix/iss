@@ -4,6 +4,7 @@ using PharmacyApi.Data;
 using PharmacyApi.Repo.Implementation;
 using PharmacyApi.Repo.Interface;
 using PharmacyApi.Utils;
+using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
 	.WriteTo.File("logs/log.txt")
@@ -15,7 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 PasswordHasher.SetPasswordKey(builder.Configuration["Keys:Password"]!);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+	.AddJsonOptions(options =>
+	{
+		options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+		options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+	});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
