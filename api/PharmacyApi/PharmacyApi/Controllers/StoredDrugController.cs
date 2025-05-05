@@ -31,18 +31,18 @@ namespace PharmacyApi.Controllers
 		public async Task<IActionResult> CreateOrUpdateStoredDrug([FromBody] AddStoredDrugRequestDTO request)
 		{
 			Log.Information($"StoredDrug method called.");
-			var existing = await this.storedDrugRepository.GetByDrugIdAndStorageId(request.Drug.Id, request.Storage.Id);
+			var existing = await this.storedDrugRepository.GetByDrugIdAndStorageId(request.Drug.Id, request.StorageId);
 			var storedDrug = new StoredDrug();		
 
 			var drug = await this.drugRepository.GetById(request.Drug.Id);
-			var storage = await this.drugStorageRepository.GetById(request.Storage.Id);
+			var storage = await this.drugStorageRepository.GetById(request.StorageId);
 
 			if (drug == null || storage == null)
 				return NotFound();
 
 			if (existing == null)
 			{
-				Log.Information($"Didn't find drug {request.Drug.Name} at drug storage {request.Storage.Id}.");
+				Log.Information($"Didn't find drug {request.Drug.Name} at drug storage {request.StorageId}.");
 				storedDrug = new StoredDrug
 				{
 					Drug = drug,
@@ -52,9 +52,9 @@ namespace PharmacyApi.Controllers
 				storedDrug = await this.storedDrugRepository.CreateAsync(storedDrug);
 			} else
 			{
-				Log.Information($"Found drug {request.Drug.Name} at drug storage {request.Storage.Id}.");
-				storedDrug.Quantity = request.Quantity;
-				storedDrug = await this.storedDrugRepository.UpdateAsync(storedDrug);
+				Log.Information($"Found drug {request.Drug.Name} at drug storage {request.StorageId}.");
+				existing.Quantity = request.Quantity;
+				storedDrug = await this.storedDrugRepository.UpdateAsync(existing);
 			}
 			return storedDrug == null ? NotFound() :
 				Ok(new StoredDrugDTO
@@ -89,6 +89,7 @@ namespace PharmacyApi.Controllers
 		[HttpGet("{drugId}/stored/{storageId}")]
 		public async Task<IActionResult> GetStoredDrugByDrugIdAndStorageId([FromRoute] int drugId, [FromRoute] int storageId)
 		{
+			Log.Information($"Getting drug with id {drugId} from storage with id {storageId}.");
 			var existing = await this.storedDrugRepository.GetByDrugIdAndStorageId(drugId, storageId);
 			if (existing == null)
 			{
@@ -118,9 +119,11 @@ namespace PharmacyApi.Controllers
 					}	
 				);
 			}
+			Log.Information($"Found drug with id {drugId} in storage with id {storageId}, q = {existing.Quantity}");
 			return Ok(
 				new StoredDrugDTO
 				{
+					Id = existing.Id,
 					Quantity = existing.Quantity,
 					Drug = new DrugDTO
 					{
