@@ -39,10 +39,7 @@ export class EditStorageComponent implements OnInit, OnDestroy{
         const request: AddStoredDrugRequest = {
           drug: storedDrug.drug,
           quantity: storedDrug.quantity,
-          storage: {
-            id: this.pharmacy.storage.id,
-            storedDrugs: []
-          }
+          storageId: this.pharmacy.storage.id
         };
         this.updateDrugStorageSubscription = this.pharmaciesService.addUpdateStoredDrug(request).subscribe({
           next: (d) => {
@@ -68,6 +65,10 @@ export class EditStorageComponent implements OnInit, OnDestroy{
         }
       }
     );
+  }
+
+  getQuantityForDrugInStorage(drugId: number,pharmacyId: number) {
+    return 0;
   }
   
   ngOnInit(): void {
