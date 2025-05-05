@@ -2,20 +2,29 @@
     <br>
     <div class="d-flex justify-content-center gap-3 mt-3">
         <div class="card p-3" style="max-height: 500px;" *ngIf="selectedOrder$ | async as selectedOrder">
-            <h3 style="margin: 3px">Order #{{selectedOrder.id}}</h3>
+            <h3 style="margin: 3px" class="mb-3">Order #{{selectedOrder.id}}</h3>
+            <p style="margin: 3px" class="fst-italic">Date: {{selectedOrder.dateTime | date:'mediumDate'}}</p>
+            <p style="margin: 3px" class="fst-italic">Time: {{selectedOrder.dateTime | date:'shortTime'}}</p>
             <div class="overflow-auto mt-3">
                 <div *ngFor="let orderedDrug of selectedOrder.orderedDrugs">
-                    <p>
+
+                    <p *ngIf="isDrugAvailable(orderedDrug.drug)" 
+                        class="bg-opacity-10 bg-dark p-2 rounded">
+                        {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
+                    </p>
+                    <p *ngIf="isDrugAvailable(orderedDrug.drug) === false" 
+                        class="bg-danger p-2 rounded">
                         {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
                     </p>
                 </div>
             </div>
-            <button class="btn btn-primary mt-3" (click)="resolveOrder()">Resolve Order</button>
+            <!-- <button class="btn btn-primary mt-3" (click)="checkOrder()">Check Order</button> -->
+            <button class="btn btn-primary mt-3" (click)="resolveOrder()" [disabled]="orderIsValid === undefined || orderIsValid === false">Resolve Order</button>
         </div>
-        <div class="card p-3 overflow-auto" style="max-height: 500px;">
-            <h3 style="margin: 3px;">Drug Menu</h3>
+        <div class="card p-3 overflow-auto" style="max-height: 500px; width: 500px">
             <ng-container *ngIf="orders$ | async as orders">
-                <table class="table mt-3">
+                <h3 style="margin: 3px;">Unresolved orders: {{orders.length}}</h3>
+                <table class="table">
                     <tbody>
                         <tr *ngFor="let order of orders">
                             <td>
