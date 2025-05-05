@@ -44,6 +44,7 @@ namespace PharmacyApi.Controllers
 			return Ok(
 				new UserDTO
 				{
+					Id = user.Id,
 					Name = user.Name,
 					Username = user.Username,
 					Password = user.Password,
