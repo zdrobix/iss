@@ -4,10 +4,10 @@ import { AddOrderRequest } from '../../models/add-order-request.model';
 import { Observable } from 'rxjs';
 import { Order } from '../../models/order.model';
 import { environment } from 'src/environment/environment';
-import { NumberSymbol } from '@angular/common';
 import { UpdateOrderRequest } from '../../models/update-order-request.model';
 import { DrugStorage } from '../../models/drug-storage.model';
 import { StoredDrug } from '../../models/stored-drug.mode';
+import { AddStoredDrugRequest } from '../../models/add-storeddrug-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +43,10 @@ export class OrdersService {
 
   getStoredDrug(drugId: number, storageId: number) : Observable<StoredDrug> {
     return this.http.get<StoredDrug>(`${environment.apiBaseUrl}/api/storeddrug/${drugId}/stored/${storageId}`);
+  }
+
+  updateStoredDrug(request: AddStoredDrugRequest) : Observable<StoredDrug> {
+    console.log(request);
+    return this.http.post<StoredDrug>(`${environment.apiBaseUrl}/api/storeddrug`, request);
   }
 }
