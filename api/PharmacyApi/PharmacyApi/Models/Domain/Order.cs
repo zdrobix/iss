@@ -6,7 +6,6 @@
 		public User? ResolvedBy { get; set; }
         public ICollection<OrderedDrug> OrderedDrugs { get; set; }
         public DateTime DateTime{ get; set; }
-	
 
 		public Order(User placedBy, ICollection<OrderedDrug> orderedDrugs, DateTime dateTime)
 		{
