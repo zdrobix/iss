@@ -7,7 +7,7 @@ namespace PharmacyApi.Utils
 {
 	public class PasswordHasher
 	{
-		private static string PasswordKey;
+		private static string PasswordKey = "1111111111111111";
 
 		public static void SetPasswordKey(string passwordKey) =>
 			PasswordKey = passwordKey;
