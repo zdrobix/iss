@@ -38,6 +38,7 @@ namespace PharmacyApi.Controllers
 						.Select(
 							storedDrug => new StoredDrugDTO
 							{
+								Id = storedDrug.Id,
 								Quantity = storedDrug.Quantity,
 								Drug = new DrugDTO
 								{
@@ -66,6 +67,7 @@ namespace PharmacyApi.Controllers
 						.Select(
 							storedDrug => new StoredDrugDTO
 							{
+								Id = storedDrug.Id,
 								Quantity = storedDrug.Quantity,
 								Drug = new DrugDTO
 								{
@@ -119,7 +121,8 @@ namespace PharmacyApi.Controllers
 				StoredDrugs = drugStorage.StoredDrugs
 					.Select(
 						storedDrug => new StoredDrugDTO
-						{
+						{	
+							Id = storedDrug.Id,
 							Quantity = storedDrug.Quantity,
 							Drug = new DrugDTO
 							{
