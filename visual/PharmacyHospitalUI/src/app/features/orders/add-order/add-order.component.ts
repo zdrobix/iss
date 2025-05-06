@@ -83,7 +83,7 @@ export class AddOrderComponent implements OnDestroy {
             });
           });
           });
-          this.router.navigateByUrl('/order');
+          this.router.navigateByUrl('/order/add');
         }
       });
   }
