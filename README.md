@@ -34,6 +34,12 @@ This system facilitates communication between medical and pharmacy departments. 
 
 ---
 
+## 🌱 This app was developed in 3 main phases
+[Check planning](https://github.com/zdrobix/iss/blob/master/planification/iterations.md)
+
+[Usecases](https://github.com/zdrobix/iss/blob/master/planification/usecases.md)
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites
