@@ -77,6 +77,16 @@ namespace PharmacyApi.Controllers
 					DomainModelToDTO(order!)
 				).ToList()) : NotFound();
 
+		// GET : https://localhost:7282/api/order
+		[HttpGet("resolved")]
+		public async Task<IActionResult> GetAllResolvedOrders() =>
+			await this.orderRepository.GetAllAsync() is IEnumerable<Order> orders
+				? Ok(orders
+					.Where(o => o.ResolvedBy != null)
+					.Select(order =>
+					DomainModelToDTO(order!)
+				).ToList()) : NotFound();
+
 		// GET : https://localhost:7282/api/order{id}
 		[HttpGet]
 		[Route("{id:int}")]
