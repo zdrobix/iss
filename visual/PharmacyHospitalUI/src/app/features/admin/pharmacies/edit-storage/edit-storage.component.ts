@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, take } from 'rxjs';
 import { Drug } from 'src/app/features/models/drug.model';
 import { Pharmacy } from 'src/app/features/models/pharmacy.model';
 import { PharmaciesService } from '../services/pharmacies.service';
@@ -9,6 +9,7 @@ import { UpdatePharmacyRequest } from 'src/app/features/models/update-pharmacy-r
 import { RouterModule } from '@angular/router';
 import { UpdateDrugStorageRequest } from 'src/app/features/models/update-drogstorage-request.model';
 import { AddStoredDrugRequest } from 'src/app/features/models/add-storeddrug-request.model';
+import { StoredDrug } from 'src/app/features/models/stored-drug.mode';
 
 @Component({
   selector: 'app-edit-storage',
@@ -22,52 +23,27 @@ export class EditStorageComponent implements OnInit, OnDestroy{
   private updateDrugStorageSubscription?: Subscription;
   private getPharmacySubscription?: Subscription;
   private routeSubscription?: Subscription;
+  private getStoredDrugSubscription?: Subscription;
   drugs$: Observable<Drug[]> | undefined;
   
   constructor(private route: ActivatedRoute, private router: Router, private pharmaciesService: PharmaciesService, private drugsService: DrugsService) {
   }
 
 
-  updateStorage() {
-      if  (!this.pharmacy || !this.id)
-        return;
-      console.log(this.pharmacy.storage)
-      for (let i = 0; i < this.pharmacy.storage.storedDrugs.length; i++) {
-        const storedDrug = this.pharmacy.storage.storedDrugs[i];
-        if (storedDrug.drug.id === 0)
-          continue
-        const request: AddStoredDrugRequest = {
-          drug: storedDrug.drug,
-          quantity: storedDrug.quantity,
-          storageId: this.pharmacy.storage.id
-        };
-        this.updateDrugStorageSubscription = this.pharmaciesService.addUpdateStoredDrug(request).subscribe({
-          next: (d) => {
-            //console.log(d);
-          }
-        });
-      }
-    }
-
   addToDrugStorage(drug: Drug, quantity: number) {
     if (!this.pharmacy || !drug || !this.pharmacy.storage || quantity <= 0)
       return;
-    if (!Array.isArray(this.pharmacy.storage.storedDrugs)) 
-      this.pharmacy.storage.storedDrugs = []; 
-    this.pharmacy.storage.storedDrugs.push( 
-      {
-        id: 0,
-        quantity: quantity,
-        drug: drug,
-        storage: {
-          id: this.pharmacy.storage.id,
-          storedDrugs: []
-        }
-      }
-    );
+    const request: AddStoredDrugRequest = {
+      drug: drug,
+      quantity: quantity,
+      storageId: this.pharmacy.storage.id
+    };
+    this.pharmaciesService.addUpdateStoredDrug(request).pipe(take(1)).subscribe((storedDrug: StoredDrug) => {
+      console.log(storedDrug);
+    });
   }
 
-  getQuantityForDrugInStorage(drugId: number,pharmacyId: number) {
+  getQuantityForDrugInStorage(drugId: number, pharmacyId: number): number {
     return 0;
   }
   

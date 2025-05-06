@@ -32,7 +32,10 @@ export class PharmaciesService {
   }
 
   addUpdateStoredDrug(request: AddStoredDrugRequest): Observable<StoredDrug> {
-    console.log("Request: ", request);
     return this.http.post<StoredDrug>(`${environment.apiBaseUrl}/api/storeddrug`, request);
+  }
+
+  getStoredDrug(drugId: number, pharmacyId: number): Observable<StoredDrug> {
+    return this.http.get<StoredDrug>(`${environment.apiBaseUrl}/api/storeddrug/${drugId}/stored/${pharmacyId}`);
   }
 }
