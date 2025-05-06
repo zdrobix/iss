@@ -15,6 +15,8 @@ import { AddHospitalComponent } from './features/admin/hospitals/add-hospital/ad
 import { AddOrderComponent } from './features/orders/add-order/add-order.component';
 import { EditUserComponent } from './features/admin/users/edit-user/edit-user.component';
 import { ResolveOrderComponent } from './features/orders/resolve-order/resolve-order.component';
+import { HistoryOrderComponent } from './features/orders/history-order/history-order.component';
+import { StorageInfoComponent } from './features/inventory/storage-info/storage-info.component';
 
 
 const routes: Routes = [
@@ -32,6 +34,8 @@ const routes: Routes = [
   { path: 'users/edit/:id', component: EditUserComponent, canActivate: [AuthGuard]},
   { path: 'order/add', component: AddOrderComponent, canActivate: [AuthGuard]},
   { path: 'order/resolve', component: ResolveOrderComponent, canActivate: [AuthGuard]},
+  { path: 'history', component: HistoryOrderComponent, canActivate: [AuthGuard]},
+  { path: 'inventory', component: StorageInfoComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];
