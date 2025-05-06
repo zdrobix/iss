@@ -1,21 +1,23 @@
 <div class="container">
     <br>
     <div class="d-flex justify-content-center gap-3 mt-3">
-        <div class="card p-3" style="max-height: 500px;" *ngIf="selectedOrder$ | async as selectedOrder">
-            <h3 style="margin: 3px" class="mb-3">Order #{{selectedOrder.id}}</h3>
-            <p style="margin: 3px" class="fst-italic">Date: {{selectedOrder.dateTime | date:'mediumDate'}}</p>
-            <p style="margin: 3px" class="fst-italic">Time: {{selectedOrder.dateTime | date:'shortTime'}}</p>
-            <div class="overflow-auto mt-3">
-                <div *ngFor="let orderedDrug of selectedOrder.orderedDrugs">
+        <div class="card p-3" style="max-height: 500px; width: 300px">
+            <div class="overflow-auto" *ngIf="selectedOrder$ | async as selectedOrder">
+                <h3 style="margin: 3px" class="mb-3">Order #{{selectedOrder.id}}</h3>
+                <p style="margin: 3px" class="fst-italic">Date: {{selectedOrder.dateTime | date:'mediumDate'}}</p>
+                <p style="margin: 3px" class="fst-italic">Time: {{selectedOrder.dateTime | date:'shortTime'}}</p>
+                <div class="mt-3">
+                    <div *ngFor="let orderedDrug of selectedOrder.orderedDrugs">
 
-                    <p *ngIf="isDrugAvailable(orderedDrug.drug)" 
-                        class="bg-opacity-10 bg-dark p-2 rounded">
-                        {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
-                    </p>
-                    <p *ngIf="isDrugAvailable(orderedDrug.drug) === false" 
-                        class="bg-opacity-75 bg-danger p-2 rounded">
-                        {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
-                    </p>
+                        <p *ngIf="isDrugAvailable(orderedDrug.drug)" 
+                            class="bg-opacity-10 bg-dark p-2 rounded">
+                            {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
+                        </p>
+                        <p *ngIf="isDrugAvailable(orderedDrug.drug) === false" 
+                            class="bg-opacity-75 bg-danger p-2 rounded">
+                            {{orderedDrug.drug.name}} x {{orderedDrug.quantity}}
+                        </p>
+                    </div>
                 </div>
             </div>
             <button class="btn btn-primary mt-3" (click)="resolveOrder()" [disabled]="orderIsValid === undefined || orderIsValid === false">Resolve Order</button>
@@ -28,7 +30,7 @@
                         <tr *ngFor="let order of orders">
                             <td>
                                 <div class="card p-3 mt-3">
-                                    <h1>Order #{{order.id}}</h1>
+                                    <h1>Order #{{getMillisecondsFromDate(order.dateTime.toString())}}{{order.id}}</h1>
                                     <p>Ordered By: {{order.placedBy.name}}</p>
                                     <p *ngIf="order.placedBy.hospital">Hospital: {{order.placedBy.hospital.name}}</p>
                                     <button class="btn btn-primary" (click)="selectOrder(order)">View Order</button>
