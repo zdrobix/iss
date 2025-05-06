@@ -29,6 +29,10 @@ export class OrdersService {
     return this.http.get<Order[]>(`${environment.apiBaseUrl}/api/order/unresolved`);
   }
 
+  getResolvedOrders() : Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiBaseUrl}/api/order/resolved`);
+  }
+
   getOrder(id: number) : Observable<Order> {
     return this.http.get<Order>(`${environment.apiBaseUrl}/api/order/${id}`)
   }
