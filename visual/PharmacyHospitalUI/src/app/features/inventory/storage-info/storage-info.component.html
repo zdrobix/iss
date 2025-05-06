@@ -1,0 +1,33 @@
+<div class="container">
+    <ng-container *ngIf="storage$ | async as storage">
+        <h1 class="mt-3">Storage information</h1>
+        <h2 class="mt-3">{{loggedInUser?.pharmacy!.name}}</h2>
+        <br>
+        <ng-container *ngIf="drugStorage?.storedDrugs!.length > 0; else noDrugs">
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let storedDrug of drugStorage?.storedDrugs">
+                        <td>{{storedDrug.drug.name}}</td>
+                        <td>{{storedDrug.drug.price}}</td>
+                        <div *ngIf="storedDrug.quantity < 1000" class="bg-danger">
+                            <td>{{storedDrug.quantity}}</td>
+                        </div>
+                        <div *ngIf="storedDrug.quantity >= 1000">
+                            <td>{{storedDrug.quantity}}</td>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <ng-template #noDrugs>
+            <p class="mt-3">No drugs available in storage.</p>
+        </ng-template>
+    </ng-container>
+</div>
