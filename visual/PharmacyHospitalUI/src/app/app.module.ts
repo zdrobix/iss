@@ -22,6 +22,7 @@ import { AddOrderComponent } from './features/orders/add-order/add-order.compone
 import { EditUserComponent } from './features/admin/users/edit-user/edit-user.component';
 import { ResolveOrderComponent } from './features/orders/resolve-order/resolve-order.component';
 import { HistoryOrderComponent } from './features/orders/history-order/history-order.component';
+import { StorageInfoComponent } from './features/inventory/storage-info/storage-info.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { HistoryOrderComponent } from './features/orders/history-order/history-o
     AddOrderComponent,
     EditUserComponent,
     ResolveOrderComponent,
-    HistoryOrderComponent
+    HistoryOrderComponent,
+    StorageInfoComponent
   ],
   imports: [
     BrowserModule,
