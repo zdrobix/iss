@@ -26,7 +26,6 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
   selectedOrder$?: Observable<Order>;
   drugStorage$?: Observable<DrugStorage>;
   drugStorage?: DrugStorage;
-  isAvailable: boolean | null = null;
   unavailableDrugs?: Drug[];
   storedDrugs?: StoredDrug[];
   private getOrderedDrugsSubscription?: Subscription;
@@ -78,7 +77,8 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
       this.selectedOrder = undefined;
       this.unavailableDrugs = [];
       this.storedDrugs = [];
-      this.router.navigateByUrl('/order/resolve');
+
+      this.router.navigateByUrl('/history');
     });
   }
 
@@ -143,5 +143,10 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
     this.updateOrderSubscription?.unsubscribe();
     this.getSelectedOrderSubscription?.unsubscribe();
     this.getDrugStorageSubscription?.unsubscribe();
+  }
+
+  getMillisecondsFromDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.getMilliseconds().toString().padStart(3, '0');
   }
 }
