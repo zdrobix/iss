@@ -9,16 +9,12 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let hospital of hospitals">
                     <td>{{hospital.id}}</td>
                     <td>{{hospital.name}}</td>
-                    <td>
-                        <button class="btn btn-light ml-3" [routerLink]="['/hospitals/edit/staff', hospital.id]">Staff</button>
-                    </td>
                 </tr>
             </tbody>
         </table>
