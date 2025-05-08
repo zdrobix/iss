@@ -38,13 +38,17 @@ export class EditStorageComponent implements OnInit, OnDestroy{
       quantity: quantity,
       storageId: this.pharmacy.storage.id
     };
+    const existingDrugIndex = this.pharmacy?.storage?.storedDrugs.findIndex(storedDrug => storedDrug.drug.id === drug.id);
+    if (existingDrugIndex !== undefined && existingDrugIndex > -1) {
+      this.pharmacy?.storage?.storedDrugs.splice(existingDrugIndex, 1);
+    }
     this.pharmaciesService.addUpdateStoredDrug(request).pipe(take(1)).subscribe((storedDrug: StoredDrug) => {
-      console.log(storedDrug);
+      this.pharmacy?.storage?.storedDrugs.push(storedDrug);
     });
   }
 
   getQuantityForDrugInStorage(drugId: number, pharmacyId: number): number {
-    return 0;
+    return this.pharmacy?.storage?.storedDrugs.find(storedDrug => storedDrug.drug.id === drugId)?.quantity || 0;
   }
   
   ngOnInit(): void {
