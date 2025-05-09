@@ -8,13 +8,13 @@ import { DrugsService } from 'src/app/features/admin/drugs/services/drugs.servic
   templateUrl: './drug-list.component.html',
   styleUrls: ['./drug-list.component.css']
 })
-export class DrugListComponent implements OnInit, OnDestroy{
+
+export class DrugListComponent implements OnInit, OnDestroy {
 
   drugs$?: Observable<Drug[]>;
   private deleteDrugSubscription?: Subscription;
-  
-  constructor(private drugsService: DrugsService) {
 
+  constructor(private drugsService: DrugsService) {
   }
 
   ngOnInit(): void {

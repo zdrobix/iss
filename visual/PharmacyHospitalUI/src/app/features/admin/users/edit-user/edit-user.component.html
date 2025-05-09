@@ -4,47 +4,20 @@
         <form #form="ngForm" (ngSubmit)="onFormSubmit()">
             <div>
                 <div class="mb-3">
-                    <input
-                    type="text"
-                    class="form-control"
-                    id="userName"
-                    name="userName"
-                    placeholder="Name"
-                    required
-                    [(ngModel)]="model.name"
-                    />
+                    <input type="text" class="form-control" id="userName" name="userName" placeholder="Name" required
+                        [(ngModel)]="model.name" />
                 </div>
                 <div class="mb-3">
-                    <input
-                    type="text"
-                    class="form-control"
-                    id="userUsername"
-                    name="userUsername"
-                    placeholder="Username"
-                    required
-                    [(ngModel)]="model.username"
-                    />
+                    <input type="text" class="form-control" id="userUsername" name="userUsername" placeholder="Username"
+                        required [(ngModel)]="model.username" />
                 </div>
                 <div class="mb-3">
-                    <input
-                    type="password"
-                    class="form-control"
-                    id="userPassword"
-                    name="userPassword"
-                    placeholder="Password"
-                    required
-                    [(ngModel)]="model.password"
-                    />
+                    <input type="password" class="form-control" id="userPassword" name="userPassword"
+                        placeholder="Password" required [(ngModel)]="model.password" />
                 </div>
                 <div class="mb-3">
-                    <select
-                    class="form-control"
-                    id="userRole"
-                    name="userRole"
-                    required
-                    [(ngModel)]="model.role" 
-                    [ngModelOptions]="{standalone: true}"
-                    >
+                    <select class="form-control" id="userRole" name="userRole" required [(ngModel)]="model.role"
+                        [ngModelOptions]="{standalone: true}">
                         <option value="" disabled selected>Select Role</option>
                         <option [ngValue]="'ADMIN'">ADMIN</option>
                         <option [ngValue]="'HOSPITAL STAFF'">HOSPITAL STAFF</option>
@@ -53,40 +26,30 @@
                 </div>
                 <ng-container *ngIf="hospitals$ | async as hospitals">
                     <div class="mb-3">
-                        <select
-                        class="form-control"
-                        id="userHospital"
-                        name="userHospital"
-                        [(ngModel)]="model.hospital" 
-                        [ngModelOptions]="{standalone: true}"
-                        >
+                        <select class="form-control" id="userHospital" name="userHospital" [(ngModel)]="model.hospital"
+                            [ngModelOptions]="{standalone: true}">
                             <option [ngValue]="null" disabled>Select Hospital</option>
                             <option *ngFor="let hospital of hospitals" [ngValue]="hospital">
                                 {{ hospital.name }}
-                              </option>
+                            </option>
                         </select>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="pharmacies$ | async as pharmacies">
                     <div class="mb-3">
-                        <select
-                        class="form-control"
-                        id="userPharmacy"
-                        name="userPharmacy"
-                        [(ngModel)]="model.pharmacy" [ngModelOptions]="{standalone: true}"
-                        >
+                        <select class="form-control" id="userPharmacy" name="userPharmacy" [(ngModel)]="model.pharmacy"
+                            [ngModelOptions]="{standalone: true}">
                             <option [ngValue]="null" disabled>Select Pharmacy</option>
                             <option *ngFor="let pharmacy of pharmacies" [ngValue]="pharmacy">
                                 {{ pharmacy.name }}
-                              </option>
+                            </option>
                         </select>
                     </div>
                 </ng-container>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
-        </div>
-      </form>
+            </div>
+        </form>
     </div>
-  </div>
-  
+</div>

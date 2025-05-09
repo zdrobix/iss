@@ -9,7 +9,8 @@ import { UsersService } from '../services/users.service';
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.css']
 })
-export class AddUserComponent implements OnDestroy{
+
+export class AddUserComponent implements OnDestroy {
   model: AddUserRequest;
   private addUserSubscription?: Subscription;
 
@@ -23,7 +24,7 @@ export class AddUserComponent implements OnDestroy{
   }
 
   onFormSubmit() {
-    if (!this.model.name || !this.model.username || !this.model.password || !this.model.role) 
+    if (!this.model.name || !this.model.username || !this.model.password || !this.model.role)
       return;
     this.addUserSubscription = this.userService.addUser(this.model).subscribe({
       next: (response) => {

@@ -9,26 +9,28 @@ import { PharmaciesService } from 'src/app/features/admin/pharmacies/services/ph
   templateUrl: './add-pharmacy.component.html',
   styleUrls: ['./add-pharmacy.component.css']
 })
-export class AddPharmacyComponent implements OnDestroy{
+
+export class AddPharmacyComponent implements OnDestroy {
   model: AddPharmacyRequest;
   private addPharmacySubscription?: Subscription;
 
   constructor(private pharmaciesService: PharmaciesService,
-      private router: Router
-    ) {
-      this.model = {
-        name: ''
-      };
-    }
+    private router: Router
+  ) {
+    this.model = {
+      name: ''
+    };
+  }
 
   onFormSubmit() {
-    if (!this.model.name) 
+    if (!this.model.name)
       return;
 
     this.addPharmacySubscription = this.pharmaciesService.addPharmacy(this.model).subscribe({
       next: () => {
         this.router.navigateByUrl('/pharmacies');
-    }});
+      }
+    });
   }
 
   ngOnDestroy(): void {

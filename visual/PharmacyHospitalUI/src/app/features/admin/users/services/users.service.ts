@@ -9,28 +9,29 @@ import { environment } from 'src/environment/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UsersService {
 
 
   constructor(private http: HttpClient) { }
 
-  addUser (user: AddUserRequest): Observable<void> {
-      return this.http.post<void>(`${environment.apiBaseUrl}/api/user`, user);
+  addUser(user: AddUserRequest): Observable<void> {
+    return this.http.post<void>(`${environment.apiBaseUrl}/api/user`, user);
   }
 
-  deleteUser (id: number): Observable<void> {
-      return this.http.delete<void>(`${environment.apiBaseUrl}/api/user/${id}`);
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/api/user/${id}`);
   }
 
-  getUsers () : Observable<User[]> {
-      return this.http.get<User[]>(`${environment.apiBaseUrl}/api/user`);
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.apiBaseUrl}/api/user`);
   }
 
-  getUser(id: number) : Observable<User>{
+  getUser(id: number): Observable<User> {
     return this.http.get<User>(`${environment.apiBaseUrl}/api/user/${id}`);
   }
 
-  updateUser (id: number, request: UpdateUserRequest): Observable<User> {
-      return this.http.put<User>(`${environment.apiBaseUrl}/api/user/${id}`, request);
+  updateUser(id: number, request: UpdateUserRequest): Observable<User> {
+    return this.http.put<User>(`${environment.apiBaseUrl}/api/user/${id}`, request);
   }
 }

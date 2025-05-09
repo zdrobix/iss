@@ -10,10 +10,10 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./pharmacy-list.component.css']
 })
 
-export class PharmacyListComponent implements OnInit{
+export class PharmacyListComponent implements OnInit {
   pharmacies$?: Observable<Pharmacy[]>;
-  
-  constructor(private pharmaciesService: PharmaciesService, ) {
+
+  constructor(private pharmaciesService: PharmaciesService,) {
 
   }
 

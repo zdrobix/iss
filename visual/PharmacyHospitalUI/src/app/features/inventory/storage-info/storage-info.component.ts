@@ -10,8 +10,8 @@ import { DrugStorage } from '../../models/drug-storage.model';
   templateUrl: './storage-info.component.html',
   styleUrls: ['./storage-info.component.css']
 })
+
 export class StorageInfoComponent implements OnInit, OnDestroy {
-  storageId?: number;
   storage$?: Observable<DrugStorage>;
   drugStorage?: DrugStorage;
   loggedInUser?: User;
@@ -19,18 +19,19 @@ export class StorageInfoComponent implements OnInit, OnDestroy {
   getDrugStorageSubscription?: Subscription;
 
   constructor(private loginsService: LoginService, private storagesService: StorageService) { }
-  
+
   ngOnInit(): void {
+    var storageId = -1;
     this.getLoggedInUserSubscription = this.loginsService.getLoggedInUser().subscribe((user: User | null) => {
       if (user) {
         this.loggedInUser = user;
         if (user.pharmacy) {
-          this.storageId = user.pharmacy.storage.id;
+          storageId = user.pharmacy.storage.id;
         }
       }
     });
-    if (this.storageId) {
-      this.storage$ = this.storagesService.getStorageById(this.storageId);
+    if (storageId !== -1) {
+      this.storage$ = this.storagesService.getStorageById(storageId);
       this.getDrugStorageSubscription = this.storage$.subscribe((storage: DrugStorage) => {
         this.drugStorage = storage;
       });

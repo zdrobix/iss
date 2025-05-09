@@ -21,8 +21,9 @@
                         <td>{{getQuantityForDrugInStorage(drug.id, pharmacy.id)}}</td>
                         <td>
                             <div class="d-flex justify-content-start gap-3">
-                                <input type="number" name="quantity" id="quantity" #quantity placeholder="Quantity"/>
-                                <button class="btn btn-light" (click)="addToDrugStorage(drug, +quantity.value)">Update</button>
+                                <input type="number" name="quantity" id="quantity" #quantity placeholder="Quantity" />
+                                <button class="btn btn-light"
+                                    (click)="addToDrugStorage(drug, +quantity.value)">Update</button>
                             </div>
                         </td>
                     </tr>

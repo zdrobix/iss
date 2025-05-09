@@ -15,7 +15,7 @@ import { AddStoredDrugRequest } from 'src/app/features/models/add-storeddrug-req
 export class PharmaciesService {
   constructor(private http: HttpClient) { }
 
-  addPharmacy(request: AddPharmacyRequest) : Observable<Pharmacy> {
+  addPharmacy(request: AddPharmacyRequest): Observable<Pharmacy> {
     return this.http.post<Pharmacy>(`${environment.apiBaseUrl}/api/pharmacy`, request);
   }
 

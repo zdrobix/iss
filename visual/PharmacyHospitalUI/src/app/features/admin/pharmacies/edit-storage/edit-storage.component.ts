@@ -16,8 +16,9 @@ import { StoredDrug } from 'src/app/features/models/stored-drug.mode';
   templateUrl: './edit-storage.component.html',
   styleUrls: ['./edit-storage.component.css']
 })
-export class EditStorageComponent implements OnInit, OnDestroy{
-  
+
+export class EditStorageComponent implements OnInit, OnDestroy {
+
   id: number | null = null;
   pharmacy?: Pharmacy | null = null;
   private updateDrugStorageSubscription?: Subscription;
@@ -25,11 +26,13 @@ export class EditStorageComponent implements OnInit, OnDestroy{
   private routeSubscription?: Subscription;
   private getStoredDrugSubscription?: Subscription;
   drugs$: Observable<Drug[]> | undefined;
-  
+
   constructor(private route: ActivatedRoute, private router: Router, private pharmaciesService: PharmaciesService, private drugsService: DrugsService) {
   }
 
-
+  /*
+  This focuses more on the persistence of stored drugs, rather than on adding them to the storage object.
+  */
   addToDrugStorage(drug: Drug, quantity: number) {
     if (!this.pharmacy || !drug || !this.pharmacy.storage || quantity <= 0)
       return;
@@ -50,7 +53,7 @@ export class EditStorageComponent implements OnInit, OnDestroy{
   getQuantityForDrugInStorage(drugId: number, pharmacyId: number): number {
     return this.pharmacy?.storage?.storedDrugs.find(storedDrug => storedDrug.drug.id === drugId)?.quantity || 0;
   }
-  
+
   ngOnInit(): void {
     this.drugs$ = this.drugsService.getDrugs();
     this.routeSubscription = this.route.params.subscribe(params => {

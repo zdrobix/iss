@@ -17,15 +17,15 @@ import { AddStoredDrugRequest } from '../../models/add-storeddrug-request.model'
   templateUrl: './resolve-order.component.html',
   styleUrls: ['./resolve-order.component.css']
 })
+
 export class ResolveOrderComponent implements OnInit, OnDestroy{
-  storageId?: number;
   loggedInUser?: User;
   orderIsValid?: boolean;
   orders$?: Observable<Order[]>;
   selectedOrder?: Order;
   selectedOrder$?: Observable<Order>;
-  drugStorage$?: Observable<DrugStorage>;
   drugStorage?: DrugStorage;
+  drugStorage$?: Observable<DrugStorage>;
   unavailableDrugs?: Drug[];
   storedDrugs?: StoredDrug[];
   private getOrderedDrugsSubscription?: Subscription;
@@ -91,17 +91,18 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
 
 
   ngOnInit(): void {
+    var storageId = -1;
     this.unavailableDrugs = [];
     this.orders$ = this.ordersService.getUnresolvedOrders();
     this.getLoggedInUserSubscription = this.loginsService.getLoggedInUser().pipe(take(1)).subscribe((user: User | null) => {
       if (user) {
         this.loggedInUser = user;
         if (user.pharmacy) {
-          this.storageId = user.pharmacy.storage.id;
+          storageId = user.pharmacy.storage.id;
         }
       }});
-      if (this.storageId) {
-        this.drugStorage$ = this.ordersService.getDrugStorage(this.storageId);
+      if (storageId !== -1) {
+        this.drugStorage$ = this.ordersService.getDrugStorage(storageId);
         this.getDrugStorageSubscription = this.drugStorage$.pipe(take(1)).subscribe((storage: DrugStorage) => {
           this.drugStorage = storage;
         });
@@ -115,7 +116,7 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
       this.orderIsValid = false;
       return;
     }
-    if (!this.storageId) {
+    if (!this.drugStorage) {
       this.orderIsValid = false;
       return;
     }
@@ -123,7 +124,7 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
     this.storedDrugs = [];
     this.getOrderedDrugsSubscription = this.selectedOrder$.pipe(take(1)).subscribe((order: Order) => {
       order.orderedDrugs.forEach((orderedDrug: OrderedDrug) => { 
-        this.getStoredDrugSubscription = this.ordersService.getStoredDrug(orderedDrug.drug.id, this.storageId!).pipe(take(1)).subscribe((storedDrug: StoredDrug) => {
+        this.getStoredDrugSubscription = this.ordersService.getStoredDrug(orderedDrug.drug.id, this.drugStorage?.id!).pipe(take(1)).subscribe((storedDrug: StoredDrug) => {
           if (storedDrug) {
             this.storedDrugs?.push(storedDrug);
             if (storedDrug.quantity < orderedDrug.quantity) {

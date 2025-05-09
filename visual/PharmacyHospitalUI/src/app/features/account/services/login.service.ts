@@ -34,6 +34,9 @@ export class LoginService {
     return timer(0).pipe(map(() => {}));
   }
 
+  /*
+  Returns the user stored in the browser's memory, otherwise null.
+  */
   private getUserFromSession(): User | null {
     const userJson = sessionStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;

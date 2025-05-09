@@ -2,7 +2,7 @@
     <h1 class="mt-3">Pharmacies List</h1>
     <div class="d-flex justify-content-end mt-3">
         <a class="btn btn-primary" [routerLink]="['/pharmacies/add']">Add Pharmacy</a>
-    </div> 
+    </div>
     <ng-container *ngIf="pharmacies$ | async as pharmacies">
         <table class="table table-bordered mt-3">
             <thead>
@@ -17,11 +17,12 @@
                     <td>{{pharmacy.id}}</td>
                     <td>{{pharmacy.name}}</td>
                     <td>
-                        <button class="btn btn-light" [routerLink]="['/pharmacies/edit/storage', pharmacy.id]">Storage</button>
+                        <button class="btn btn-light"
+                            [routerLink]="['/pharmacies/edit/storage', pharmacy.id]">Storage</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </ng-container>
-    
+
 </div>

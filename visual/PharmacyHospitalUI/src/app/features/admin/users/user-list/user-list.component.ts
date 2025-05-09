@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
+
 export class UserListComponent implements OnInit, OnDestroy {
 
   users$?: Observable<User[]>;
@@ -16,7 +17,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
 
   constructor(private usersService: UsersService) {
-    
+
   }
   ngOnInit(): void {
     this.users$ = this.usersService.getUsers();

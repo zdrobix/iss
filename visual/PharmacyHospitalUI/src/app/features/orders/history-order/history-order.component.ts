@@ -13,6 +13,7 @@ import { LoginService } from '../../account/services/login.service';
   templateUrl: './history-order.component.html',
   styleUrls: ['./history-order.component.css']
 })
+
 export class HistoryOrderComponent implements OnInit, OnDestroy{
   storageId?: number;
   loggedInUser?: User;

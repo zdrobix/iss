@@ -11,6 +11,10 @@ export class AuthGuard implements CanActivate {
 
   constructor(private loginService: LoginService, private router: Router) {}
 
+  /*
+  Some routes are restricted, and can't be visited unless the user is logged in.
+  If the user is logged in, this method returns an Observable, otherwise a tree, redirecting the user.
+  */
   canActivate(): Observable<boolean | UrlTree> {
     return this.loginService.getLoggedInUser().pipe(
       map(user => user ? true : this.router.createUrlTree(['/']))

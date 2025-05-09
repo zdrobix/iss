@@ -12,15 +12,15 @@ export class DrugsService {
 
   constructor(private http: HttpClient) { }
 
-  addDrug (drug: AddDrugRequest): Observable<void> {
+  addDrug(drug: AddDrugRequest): Observable<void> {
     return this.http.post<void>(`${environment.apiBaseUrl}/api/drug`, drug);
   }
 
-  deleteDrug (id: number): Observable<Drug> {
+  deleteDrug(id: number): Observable<Drug> {
     return this.http.delete<Drug>(`${environment.apiBaseUrl}/api/drug/${id}`);
   }
 
-  getDrugs () : Observable<Drug[]> {
+  getDrugs(): Observable<Drug[]> {
     return this.http.get<Drug[]>(`${environment.apiBaseUrl}/api/drug`);
   }
 }

@@ -8,9 +8,10 @@ import { HospitalsService } from '../services/hospitals.service';
   templateUrl: './hospital-list.component.html',
   styleUrls: ['./hospital-list.component.css']
 })
-export class HospitalListComponent implements OnInit{
+
+export class HospitalListComponent implements OnInit {
   hospitals$?: Observable<Hospital[]>;
-  
+
   constructor(private hospitalsService: HospitalsService) {
 
   }

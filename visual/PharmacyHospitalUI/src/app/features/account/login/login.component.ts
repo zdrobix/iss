@@ -10,6 +10,7 @@ import { User } from '../../models/user.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit, OnDestroy  {
   model: LoginRequest;
   private loginSubscription?: Subscription;
@@ -22,12 +23,17 @@ export class LoginComponent implements OnInit, OnDestroy  {
       password: ''
     };
   }
+
   ngOnInit(): void {
     if (this.loginService.user$) {
       this.router.navigate(['/account']);
     }
   }
 
+  /*
+  If the user logs in successfully, they are redirected to the account tab.
+  Otherwise code 400 (fix pls).
+  */
   onFormSubmit() {
     if (!this.model)
       return;

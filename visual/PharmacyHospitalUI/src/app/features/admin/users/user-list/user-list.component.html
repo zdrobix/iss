@@ -2,7 +2,7 @@
     <h1 class="mt-3">User List</h1>
     <div class="d-flex justify-content-end mt-3">
         <a class="btn btn-primary" [routerLink]="['/users/add']">Add User</a>
-    </div> 
+    </div>
     <ng-container *ngIf="users$ | async as users">
         <table class="table table-bordered mt-3">
             <thead>
@@ -22,12 +22,12 @@
                     <td>{{user.username}}</td>
                     <td>{{user.role}}</td>
                     <td>
-                       <div *ngIf="user.hospital">
+                        <div *ngIf="user.hospital">
                             {{user.hospital.name}}
-                       </div> 
-                       <div *ngIf="user.pharmacy">
+                        </div>
+                        <div *ngIf="user.pharmacy">
                             {{user.pharmacy.name}}
-                        </div> 
+                        </div>
                     </td>
                     <td>
                         <div class="d-flex justify-content-center gap-3">
@@ -39,5 +39,5 @@
             </tbody>
         </table>
     </ng-container>
-    
+
 </div>

@@ -9,23 +9,24 @@ import { environment } from 'src/environment/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class HospitalsService {
-  
+
   constructor(private http: HttpClient) { }
-  
+
   getHospitals(): Observable<Hospital[]> {
     return this.http.get<Hospital[]>(`${environment.apiBaseUrl}/api/hospital`);
   }
-  
-  addHospital(request: AddHospitalRequest) : Observable<Hospital> {
+
+  addHospital(request: AddHospitalRequest): Observable<Hospital> {
     return this.http.post<Hospital>(`${environment.apiBaseUrl}/api/hospital`, request);
   }
-  
-  getHospital(id: number) : Observable<Hospital> {
+
+  getHospital(id: number): Observable<Hospital> {
     return this.http.get<Hospital>(`${environment.apiBaseUrl}/api/hospital/${id}`);
   }
 
-  updateHospital(id: number, request: UpdateHospitalRequest) : Observable<Hospital> {
+  updateHospital(id: number, request: UpdateHospitalRequest): Observable<Hospital> {
     return this.http.put<Hospital>(`${environment.apiBaseUrl}/api/hospital/${id}`, request);
   }
 }

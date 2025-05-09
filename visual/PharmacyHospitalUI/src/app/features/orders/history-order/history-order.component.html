@@ -17,8 +17,10 @@
         </div>
         <div class="card p-3 overflow-auto" style="max-height: 500px; width: 500px">
             <ng-container *ngIf="orders$ | async as orders">
-                <h3 *ngIf="loggedInUser!.role==='PHARMACY STAFF'" style="margin: 3px;">Resolved orders: {{orders.length}}</h3>
-                <h3 *ngIf="loggedInUser!.role==='HOSPITAL STAFF'" style="margin: 3px;">Placed orders: {{orders.length}}</h3>
+                <h3 *ngIf="loggedInUser!.role==='PHARMACY STAFF'" style="margin: 3px;">Resolved orders:
+                    {{orders.length}}</h3>
+                <h3 *ngIf="loggedInUser!.role==='HOSPITAL STAFF'" style="margin: 3px;">Placed orders: {{orders.length}}
+                </h3>
                 <table class="table">
                     <tbody>
                         <tr *ngFor="let order of orders">
