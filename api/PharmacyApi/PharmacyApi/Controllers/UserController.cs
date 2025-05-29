@@ -114,7 +114,42 @@ namespace PharmacyApi.Controllers
 			Log.Information($"User {request.Username} logged in successfully.");
 
 			var token = tokenService.GenerateToken(user);
-			return Ok(new { token });
+			var userDto = new UserDTO
+			{
+				Id = user.Id,
+				Name = user.Name,
+				Username = user.Username,
+				Password = user.Password,
+				Role = user.Role,
+				Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
+				{
+					Id = user.Pharmacy.Id,
+					Name = user.Pharmacy.Name,
+					Storage = new DrugStorageDTO
+					{
+						Id = user.Pharmacy.Storage.Id,
+						StoredDrugs = user.Pharmacy.Storage.StoredDrugs
+							.Select(storedDrug => new StoredDrugDTO
+							{
+								Id = storedDrug.Id,
+								Quantity = storedDrug.Quantity,
+								Drug = new DrugDTO
+								{
+									Id = storedDrug.Drug.Id,
+									Name = storedDrug.Drug.Name,
+									Price = storedDrug.Drug.Price
+								},
+								StorageId = user.Pharmacy.Storage.Id
+							}).ToList()
+					}
+				},
+				Hospital = user.Hospital == null ? null : new HospitalDTO
+				{
+					Id = user.Hospital.Id,
+					Name = user.Hospital.Name
+				}
+			};
+			return Ok(new { token, user });
 		}
 
 		// GET : https://localhost:7282/api/user

@@ -29,6 +29,7 @@ export class LoginService {
       .pipe(
         tap(response => {
           localStorage.setItem('jwt_token', response.token);
+          console.log('response: ', response)
         })
       );
   }
