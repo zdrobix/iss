@@ -107,3 +107,4 @@ SemanticSymbols.db-wal
 .vs/
 # appsettings.json
 # appsettings.Development.json
+secrets.json
