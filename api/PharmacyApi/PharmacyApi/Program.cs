@@ -82,9 +82,6 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseDefaultFiles(); 
-app.UseStaticFiles();
-
 app.UseHttpsRedirection();
 
 app.UseCors(options => {
@@ -99,7 +96,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallbackToFile("index.html");
 app.Run();
 
 
