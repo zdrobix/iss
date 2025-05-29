@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApi.Models.Domain;
@@ -18,17 +19,20 @@ namespace PharmacyApi.Controllers
 		private readonly IUserRepository userRepository;
 		private readonly IHospitalRepository hospitalRepository;
 		private readonly IPharmacyRepository pharmacyRepository;
+		private readonly ITokenService tokenService;
 
 		public UserController(IUserRepository userRepository, IHospitalRepository hospitalRepository,
-						  IPharmacyRepository pharmacyRepository)
+						  IPharmacyRepository pharmacyRepository, ITokenService tokenService)
 		{
 			this.userRepository = userRepository;
 			this.hospitalRepository = hospitalRepository;
 			this.pharmacyRepository = pharmacyRepository;
+			this.tokenService = tokenService;
 			Log.Information("UserController initialized");
 		}
 
 		// POST : https://localhost:7282/api/user
+		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> CreateUser([FromBody] UserDTO userDTO)
 		{
@@ -54,6 +58,7 @@ namespace PharmacyApi.Controllers
 		}
 
 		// GET : https://localhost:7282/api/user
+		[Authorize]
 		[HttpGet]
 		[Route("{id:int}")]
 		public async Task<IActionResult> GetUserById(int id)
@@ -88,7 +93,7 @@ namespace PharmacyApi.Controllers
 			);
 		}
 
-		// GET : https://localhost:7282/api/user
+		// POST : https://localhost:7282/api/user
 		[HttpPost]
 		[Route("login")]
 		public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
@@ -107,44 +112,13 @@ namespace PharmacyApi.Controllers
 			}
 
 			Log.Information($"User {request.Username} logged in successfully.");
-			return Ok(new UserDTO
-			{
-				Id = user.Id,
-				Name = user.Name,
-				Username = user.Username,
-				Password = user.Password,
-				Role = user.Role,
-				Pharmacy = user.Pharmacy == null ? null : new PharmacyDTO
-				{
-					Id = user.Pharmacy.Id,
-					Name = user.Pharmacy.Name,
-					Storage = new DrugStorageDTO
-					{
-						Id = user.Pharmacy.Storage.Id,
-						StoredDrugs = user.Pharmacy.Storage.StoredDrugs
-							.Select(storedDrug => new StoredDrugDTO
-							{
-								Id = storedDrug.Id,
-								Quantity = storedDrug.Quantity,
-								Drug = new DrugDTO
-								{
-									Id = storedDrug.Drug.Id,
-									Name = storedDrug.Drug.Name,
-									Price = storedDrug.Drug.Price
-								},
-								StorageId = user.Pharmacy.Storage.Id
-							}).ToList()
-					}
-				},
-				Hospital = user.Hospital == null ? null : new HospitalDTO
-				{ 
-					Id = user.Hospital.Id,
-					Name = user.Hospital.Name
-				}
-			});
+
+			var token = tokenService.GenerateToken(user);
+			return Ok(new { token });
 		}
 
 		// GET : https://localhost:7282/api/user
+		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> GetAllUsers()
 		{
@@ -173,6 +147,7 @@ namespace PharmacyApi.Controllers
 		}
 
 		// DELETE : https://localhost:7282/api/user{id}
+		[Authorize]
 		[HttpDelete]
 		[Route("{id:int}")]
 		public async Task<IActionResult> DeleteUser([FromRoute] int id)
@@ -202,7 +177,8 @@ namespace PharmacyApi.Controllers
 			);
 		}
 
-		// PUT : https://localhost:7282/api/user{id}	
+		// PUT : https://localhost:7282/api/user{id}
+		[Authorize]
 		[HttpPut]
 		[Route("{id:int}")]
 		public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserRequestDTO request)

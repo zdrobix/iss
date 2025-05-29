@@ -5,7 +5,9 @@ using PharmacyApi.Repo.Implementation;
 using PharmacyApi.Repo.Interface;
 using PharmacyApi.Utils;
 using System.Text.Json.Serialization;
-using System.Collections;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 Log.Logger = new LoggerConfiguration()
 	.WriteTo.File("logs/log.txt")
@@ -15,11 +17,10 @@ Log.Information("Application started.");
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
-					 .AddEnvironmentVariables();
+builder.Configuration.AddEnvironmentVariables();
 
 
-PasswordHasher.SetPasswordKey(Environment.GetEnvironmentVariable("pass"));
+PasswordHasher.SetPasswordKey(Environment.GetEnvironmentVariable("pass")!);
 
 builder.Services.AddControllers()
 	.AddJsonOptions(options =>
@@ -42,6 +43,30 @@ builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IStoredDrugRepository, StoredDrugRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddAuthentication(options =>
+{
+	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+	var secretKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("pass")! + "" + Environment.GetEnvironmentVariable("pass")!);
+
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true,
+		ValidIssuer = Environment.GetEnvironmentVariable("issuer"),
+		ValidAudience = Environment.GetEnvironmentVariable("audience"),
+		IssuerSigningKey = new SymmetricSecurityKey(secretKey)
+	};
+});
+
+builder.Services.AddAuthorization();
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
@@ -67,24 +92,11 @@ app.UseCors(options => {
 	options.AllowAnyMethod();
 });
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapGet("/testdb", async (ApplicationDbContext db) =>
-{
-	try
-	{
-		await db.Database.OpenConnectionAsync();
-		await db.Database.CloseConnectionAsync();
-		return Results.Ok("Database connection successful!");
-	}
-	catch (Exception ex)
-	{
-		return Results.Problem($"Database connection failed: {ex.Message}");
-	}
-});
-
 
 app.Run();
 

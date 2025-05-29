@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApi.Models.Domain;
 using PharmacyApi.Models.DTO;
@@ -6,6 +7,7 @@ using PharmacyApi.Repo.Interface;
 
 namespace PharmacyApi.Controllers
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class DrugController : ControllerBase

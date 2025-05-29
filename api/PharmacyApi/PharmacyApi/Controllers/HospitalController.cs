@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApi.Models.Domain;
 using PharmacyApi.Models.DTO;
@@ -7,6 +8,7 @@ using Serilog;
 
 namespace PharmacyApi.Controllers
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class HospitalController : ControllerBase
