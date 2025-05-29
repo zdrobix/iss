@@ -18,15 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
 					 .AddEnvironmentVariables();
 
-var env_password = Environment.GetEnvironmentVariable("pass");
-var env_connstr = Environment.GetEnvironmentVariable("conn");
-var secret_password = builder.Configuration["Keys:Password"];
-var secret_connstr = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine($"ENV Password = {env_password}");
-Console.WriteLine($"ENV ConnStr = {env_connstr}");
 
-
-PasswordHasher.SetPasswordKey(secret_password);
+PasswordHasher.SetPasswordKey(Environment.GetEnvironmentVariable("pass"));
 
 builder.Services.AddControllers()
 	.AddJsonOptions(options =>
@@ -39,7 +32,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-	options.UseSqlServer(secret_connstr);
+	options.UseSqlServer(Environment.GetEnvironmentVariable("conn"));
 });
 
 builder.Services.AddScoped<IDrugRepository, DrugRepository>();
