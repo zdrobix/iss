@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { AddUserRequest } from 'src/app/features/models/add-user-request.model';
 import { UpdateUserRequest } from 'src/app/features/models/update-user-request.model';
@@ -24,7 +25,9 @@ export class UsersService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiBaseUrl}/api/user`);
+    return this.http.get<{ $values: User[] }>(`${environment.apiBaseUrl}/api/user`).pipe(
+      map((res: { $values: User[] }) => res.$values || [])
+    );
   }
 
   getUser(id: number): Observable<User> {

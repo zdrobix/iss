@@ -89,7 +89,7 @@ export class AddOrderComponent implements OnDestroy {
             });
           });
         });
-        this.router.navigateByUrl('/pharmacy-hospital/#/order/add');
+        this.router.navigateByUrl('/pharmacy-hospital/#/order/');
       }
     });
   }

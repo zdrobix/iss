@@ -72,7 +72,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddDefaultPolicy(policy =>
 	{
-		policy.WithOrigins("https://zdrobix.github.io")
+		policy.WithOrigins("https://iss-production.up.railway.app", "https://zdrobix.github.io")
 			  .AllowAnyHeader()
 			  .AllowAnyMethod();
 	});
