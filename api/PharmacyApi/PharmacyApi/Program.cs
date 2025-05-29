@@ -71,4 +71,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapGet("/testdb", async (ApplicationDbContext db) =>
+{
+	try
+	{
+		await db.Database.OpenConnectionAsync();
+		await db.Database.CloseConnectionAsync();
+		return Results.Ok("Database connection successful!");
+	}
+	catch (Exception ex)
+	{
+		return Results.Problem($"Database connection failed: {ex.Message}");
+	}
+});
+
+
 app.Run();
+
+
