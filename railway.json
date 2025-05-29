@@ -1,0 +1,10 @@
+{
+  "build": {
+    "builder": "dotnet",
+    "buildCommand": "dotnet publish -c Release -o ./out",
+    "outputPath": "./out"
+  },
+  "start": {
+    "startCommand": "dotnet ./out/PharmacyApi.dll"
+  }
+}
