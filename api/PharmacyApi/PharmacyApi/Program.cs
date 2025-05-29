@@ -14,6 +14,8 @@ Log.Information("Application started.");
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 PasswordHasher.SetPasswordKey(builder.Configuration["Keys:Password"]!);
 
 builder.Services.AddControllers()
@@ -48,9 +50,8 @@ var app = builder.Build();
 //	app.UseSwagger();
 //	app.UseSwaggerUI();
 //}
-Console.WriteLine( builder.Configuration.GetConnectionString("DefaultConnection"));
+Console.WriteLine($"Connection string: builder.Configuration.GetConnectionString("DefaultConnection")");
 Console.WriteLine($"Password key: {builder.Configuration["Keys:Password"]}");
-global::System.Console.WriteLine("Heloeoooo");
 
 app.UseSwagger();
 app.UseSwaggerUI();
