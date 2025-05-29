@@ -16,6 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 
+foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
+{
+	Console.WriteLine($"{de.Key} = {de.Value}");
+}
+
+Console.WriteLine($"ENV Password = {Environment.GetEnvironmentVariable("Keys__Password")}");
+Console.WriteLine($"ENV ConnStr = {Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
+
+
 PasswordHasher.SetPasswordKey(builder.Configuration["Keys:Password"]!);
 
 builder.Services.AddControllers()
