@@ -50,7 +50,7 @@ var app = builder.Build();
 //}
 Console.WriteLine( builder.Configuration.GetConnectionString("DefaultConnection"));
 Console.WriteLine($"Password key: {builder.Configuration["Keys:Password"]}");
-
+global::System.Console.WriteLine("Heloeoooo");
 
 app.UseSwagger();
 app.UseSwaggerUI();
