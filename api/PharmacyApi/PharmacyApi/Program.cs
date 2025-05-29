@@ -48,8 +48,9 @@ var app = builder.Build();
 //	app.UseSwagger();
 //	app.UseSwaggerUI();
 //}
-var connString = builder.Configuration.GetConnectionString("DefaultConnection");
-Log.Information("Using connection string: {ConnString}", connString);
+Console.WriteLine( builder.Configuration.GetConnectionString("DefaultConnection"));
+Console.WriteLine($"Password key: {builder.Configuration["Keys:Password"]}");
+
 
 app.UseSwagger();
 app.UseSwaggerUI();
