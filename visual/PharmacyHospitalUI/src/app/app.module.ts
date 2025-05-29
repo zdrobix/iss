@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { LoginComponent } from './features/account/login/login.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { InfoComponent } from './features/account/info/info.component';
 import { AddDrugComponent } from './features/admin/drugs/add-drug/add-drug.component';
 import { DrugListComponent } from './features/admin/drugs/drug-list/drug-list.component';
@@ -23,6 +23,7 @@ import { EditUserComponent } from './features/admin/users/edit-user/edit-user.co
 import { ResolveOrderComponent } from './features/orders/resolve-order/resolve-order.component';
 import { HistoryOrderComponent } from './features/orders/history-order/history-order.component';
 import { StorageInfoComponent } from './features/inventory/storage-info/storage-info.component';
+import { AuthInterceptor } from './core/guards/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { StorageInfoComponent } from './features/inventory/storage-info/storage-
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

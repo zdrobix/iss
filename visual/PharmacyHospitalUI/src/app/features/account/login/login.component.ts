@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy  {
     if (!this.model)
       return;
     this.loginSubscription = this.loginService.login(this.model).subscribe({
-      next: (response: User) => {
-        this.loginService.setLoggedInUser(response);
+      next: () => {
         this.router.navigate(['/account']);
       },
       error: (error) => {}

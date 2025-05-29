@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequest } from '../../models/login-request.model';
-import { BehaviorSubject, map, Observable, of, timer } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap, timer } from 'rxjs';
 import { environment } from 'src/environment/environment';
 import { User } from '../../models/user.model';
 
@@ -24,14 +24,17 @@ export class LoginService {
     return this.user$;
   }
 
-  login (model: LoginRequest) : Observable<User> {
-    return this.http.post<User>(`${environment.apiBaseUrl}/api/user/login`, model);
+  login (request: LoginRequest) : Observable<{token: string}> {
+    return this.http.post<{token: string}>(`${environment.apiBaseUrl}/api/user/login`, request)
+      .pipe(
+        tap(response => {
+          localStorage.setItem('jwt_token', response.token);
+        })
+      );
   }
 
-  logout(): Observable<void> {
-    sessionStorage.removeItem('user');
-    this.currentUserSubject.next(null);
-    return timer(0).pipe(map(() => {}));
+  logout(): void {
+    localStorage.removeItem('jwt_token');
   }
 
   /*

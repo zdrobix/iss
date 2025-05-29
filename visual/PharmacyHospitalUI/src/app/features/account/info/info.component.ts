@@ -13,7 +13,6 @@ import { HospitalsService } from '../../admin/hospitals/services/hospitals.servi
 })
 export class InfoComponent implements OnInit, OnDestroy {
   user$: Observable<User | null> | undefined;
-  private logoutSubscription?: Subscription;
   private getPharmacySubscription?: Subscription;
   private getHospitalSubscription?: Subscription;
 
@@ -48,15 +47,11 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   logout(){
-    this.logoutSubscription = this.loginService.logout().pipe(take(1)).subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      }
-    });
+    this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 
   ngOnDestroy() {
-      this.logoutSubscription?.unsubscribe();
       this.getPharmacySubscription?.unsubscribe();
       this.getHospitalSubscription?.unsubscribe();
   }

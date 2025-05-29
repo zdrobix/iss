@@ -1,3 +1,3 @@
 export const environment = {
-    apiBaseUrl: 'https://localhost:7282'
+    apiBaseUrl: 'https://iss-production.up.railway.app/'
 };
