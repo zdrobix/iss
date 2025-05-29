@@ -17,11 +17,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 
-Console.WriteLine($"ENV Password = {Environment.GetEnvironmentVariable("Keys__Password")}");
-Console.WriteLine($"ENV ConnStr = {Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
+var env_password = Environment.GetEnvironmentVariable("pass");
+var env_connstr = Environment.GetEnvironmentVariable("conn");
+Console.WriteLine($"ENV Password = {env_password}");
+Console.WriteLine($"ENV ConnStr = {env_connstr}");
 
 
-PasswordHasher.SetPasswordKey(builder.Configuration["Keys:Password"]!);
+PasswordHasher.SetPasswordKey(env_password);
 
 builder.Services.AddControllers()
 	.AddJsonOptions(options =>
@@ -34,7 +36,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+	options.UseSqlServer(env_connstr);
 });
 
 builder.Services.AddScoped<IDrugRepository, DrugRepository>();
@@ -55,8 +57,6 @@ var app = builder.Build();
 //	app.UseSwagger();
 //	app.UseSwaggerUI();
 //}
-Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("DefaultConnection")}");
-Console.WriteLine($"Password key: {builder.Configuration["Keys:Password"]}");
 
 app.UseSwagger();
 app.UseSwaggerUI();
