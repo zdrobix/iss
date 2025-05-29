@@ -20,5 +20,8 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="PharmacyTest\**\*.cs" />
+  </ItemGroup>
 
 </Project>
