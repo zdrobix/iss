@@ -5,6 +5,7 @@ using PharmacyApi.Repo.Implementation;
 using PharmacyApi.Repo.Interface;
 using PharmacyApi.Utils;
 using System.Text.Json.Serialization;
+using System.Collections;
 
 Log.Logger = new LoggerConfiguration()
 	.WriteTo.File("logs/log.txt")
