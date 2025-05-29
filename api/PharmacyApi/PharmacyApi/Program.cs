@@ -25,10 +25,8 @@ PasswordHasher.SetPasswordKey(Environment.GetEnvironmentVariable("pass")!);
 builder.Services.AddControllers()
 	.AddJsonOptions(options =>
 	{
+		options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 		options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-		options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-		options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-		options.JsonSerializerOptions.MaxDepth = 64;
 	});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
