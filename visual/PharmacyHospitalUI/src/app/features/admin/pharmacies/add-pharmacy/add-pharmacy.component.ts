@@ -28,7 +28,7 @@ export class AddPharmacyComponent implements OnDestroy {
 
     this.addPharmacySubscription = this.pharmaciesService.addPharmacy(this.model).subscribe({
       next: () => {
-        this.router.navigateByUrl('/pharmacies');
+        this.router.navigateByUrl('/pharmacy-hospital/#/pharmacies');
       }
     });
   }

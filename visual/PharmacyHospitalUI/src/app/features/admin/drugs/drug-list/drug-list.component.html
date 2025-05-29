@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="mt-3">Drug List</h1>
     <div class="d-flex justify-content-end mt-3">
-        <a class="btn btn-primary" [routerLink]="['/drugs/add']">Add Drug</a>
+        <a class="btn btn-primary" [routerLink]="['/pharmacy-hospital/#/drugs/add']">Add Drug</a>
     </div>
     <ng-container *ngIf="drugs$ | async as drugs">
         <table class="table table-bordered mt-3">

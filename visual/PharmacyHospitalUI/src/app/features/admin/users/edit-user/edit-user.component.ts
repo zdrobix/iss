@@ -39,7 +39,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     if (this.model.hospital?.id === 0) { this.model.hospital = null; }
     this.updateUserSubscription = this.userService.updateUser(userId, this.model).subscribe({
       next: (response) => {
-        this.router.navigateByUrl('/users');
+        this.router.navigateByUrl('/pharmacy-hospital/#/users');
       }
     });
   }

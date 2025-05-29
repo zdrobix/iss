@@ -11,15 +11,15 @@
           <ng-container *ngIf="!isAdmin(user)">
             <li class="nav-item">
               <a *ngIf="user.role == 'HOSPITAL STAFF'" class="nav-link active" aria-current="page"
-                href="order/add">Order</a>
+                href="/pharmacy-hospital/#/order/add">Order</a>
               <a *ngIf="user.role == 'PHARMACY STAFF'" class="nav-link active" aria-current="page"
-                href="order/resolve">Order</a>
+                href="/pharmacy-hospital/#/order/resolve">Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/history">History</a>
+              <a class="nav-link" href="/pharmacy-hospital/#/history">History</a>
             </li>
             <li class="nav-item" *ngIf="user.role === 'PHARMACY STAFF'">
-              <a class="nav-link" href="/inventory">Inventory</a>
+              <a class="nav-link" href="/pharmacy-hospital/#/inventory">Inventory</a>
             </li>
           </ng-container>
           <ng-container *ngIf="isAdmin(user)">
@@ -29,10 +29,10 @@
                 Admin
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/users">Users</a></li>
-                <li><a class="dropdown-item" href="/drugs">Drugs</a></li>
-                <li><a class="dropdown-item" href="/pharmacies">Pharmacies</a></li>
-                <li><a class="dropdown-item" href="/hospitals">Hospitals</a></li>
+                <li><a class="dropdown-item" href="/pharmacy-hospital/#/users">Users</a></li>
+                <li><a class="dropdown-item" href="/pharmacy-hospital/#/drugs">Drugs</a></li>
+                <li><a class="dropdown-item" href="/pharmacy-hospital/#/pharmacies">Pharmacies</a></li>
+                <li><a class="dropdown-item" href="/pharmacy-hospital/#/hospitals">Hospitals</a></li>
               </ul>
             </li>
           </ng-container>

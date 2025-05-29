@@ -84,11 +84,17 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors(options => {
-	options.AllowAnyHeader();
-	options.AllowAnyOrigin();
-	options.AllowAnyMethod();
-});
+app.UseRouting();
+
+//app.UseCors(options => {
+//	options.AllowAnyHeader();
+//	options.AllowAnyOrigin();
+//	options.AllowAnyMethod();
+//});
+app.UseCors(policy =>
+	policy.WithOrigins("https://zdrobix.github.io")
+		  .AllowAnyHeader()
+		  .AllowAnyMethod());
 
 app.UseAuthentication();
 

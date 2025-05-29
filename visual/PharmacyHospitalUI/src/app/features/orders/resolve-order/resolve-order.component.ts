@@ -78,7 +78,7 @@ export class ResolveOrderComponent implements OnInit, OnDestroy{
       this.unavailableDrugs = [];
       this.storedDrugs = [];
 
-      this.router.navigateByUrl('/history');
+      this.router.navigateByUrl('/pharmacy-hospital/#/history');
     });
   }
 

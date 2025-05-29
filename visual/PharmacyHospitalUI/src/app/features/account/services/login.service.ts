@@ -24,18 +24,20 @@ export class LoginService {
     return this.user$;
   }
 
-  login (request: LoginRequest) : Observable<{token: string}> {
-    return this.http.post<{token: string}>(`${environment.apiBaseUrl}/api/user/login`, request)
+  login (request: LoginRequest) : Observable<{token: string, user: User}> {
+    return this.http.post<{token: string, user: User}>(`${environment.apiBaseUrl}/api/user/login`, request)
       .pipe(
         tap(response => {
           localStorage.setItem('jwt_token', response.token);
-          console.log('response: ', response)
+          this.setLoggedInUser(response.user);
         })
       );
   }
 
   logout(): void {
     localStorage.removeItem('jwt_token');
+    sessionStorage.removeItem('user');
+    this.currentUserSubject.next(null);
   }
 
   /*
