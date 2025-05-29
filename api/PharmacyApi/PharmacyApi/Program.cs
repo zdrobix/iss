@@ -70,6 +70,16 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(policy =>
+	{
+		policy.WithOrigins("https://zdrobix.github.io")
+			  .AllowAnyHeader()
+			  .AllowAnyMethod();
+	});
+})
+
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
@@ -88,15 +98,12 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-//app.UseCors(options => {
-//	options.AllowAnyHeader();
-//	options.AllowAnyOrigin();
-//	options.AllowAnyMethod();
-//});
-app.UseCors(policy =>
-	policy.WithOrigins("https://zdrobix.github.io")
-		  .AllowAnyHeader()
-		  .AllowAnyMethod());
+app.UseCors(options =>
+{
+	options.AllowAnyHeader();
+	options.AllowAnyOrigin();
+	options.AllowAnyMethod();
+});
 
 app.UseAuthentication();
 
