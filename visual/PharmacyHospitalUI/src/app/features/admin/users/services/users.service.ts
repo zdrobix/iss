@@ -25,9 +25,7 @@ export class UsersService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<{ $values: User[] }>(`${environment.apiBaseUrl}/api/user`).pipe(
-      map((res: { $values: User[] }) => res.$values || [])
-    );
+    return this.http.get<User[]>(`${environment.apiBaseUrl}/api/user`);
   }
 
   getUser(id: number): Observable<User> {

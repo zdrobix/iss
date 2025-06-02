@@ -18,7 +18,6 @@ export class OrdersService {
   constructor(private http: HttpClient) { }
 
   addOrder(request: AddOrderRequest): Observable<Order> {
-    console.log(request);
     return this.http.post<Order>(`${environment.apiBaseUrl}/api/order`, request);
   }
 
