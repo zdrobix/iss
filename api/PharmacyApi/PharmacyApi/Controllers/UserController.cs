@@ -282,5 +282,11 @@ namespace PharmacyApi.Controllers
 				}
 			);
 		}
+		
+		// GET : https://localhost:7282/api/ping
+		[HttpGet]
+		[Route("marco")]
+		public async Task<IActionResult> TestController () =>
+			Ok("polo");
 	}
 }
