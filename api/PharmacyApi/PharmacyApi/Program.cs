@@ -72,7 +72,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddDefaultPolicy(policy =>
 	{
-		policy.WithOrigins("https://iss-production.up.railway.app", "https://zdrobix.github.io")
+		policy.WithOrigins("https://iss-production.up.railway.app", "https://zdrobix.github.io", "https://f2027a356901.ngrok-free.app" )
 			  .AllowAnyHeader()
 			  .AllowAnyMethod();
 	});
@@ -83,16 +83,16 @@ builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
-//if (app.Environment.IsDevelopment())
-//{
-//	app.UseSwagger();
-//	app.UseSwaggerUI();
-//}
+if (app.Environment.IsDevelopment())
+{
+	app.UseSwagger();
+	app.UseSwaggerUI();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseRouting();
 
@@ -110,5 +110,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-

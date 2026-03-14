@@ -1,3 +1,3 @@
 export const environment = {
-    apiBaseUrl: 'https://iss-production.up.railway.app'
+    apiBaseUrl: 'https://f2027a356901.ngrok-free.app'
 };
